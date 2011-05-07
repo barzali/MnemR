@@ -14,9 +14,11 @@
             </intent-filter>
         </activity>
         
+	    <activity android:name="FlashcardsActivity"></activity>
+    
         <provider android:name=".provider.MnemProvider"
         			android:authorities="com.mnemr">
         </provider>
 
-    </application>
+</application>
 </manifest>

@@ -18,6 +18,7 @@ public class MnemProvider extends ContentProvider {
 	
 	private static final UriMatcher uriMatcher;
 	private static final int MNEMONS = 1;
+	private static final int RELATED = 2;
 	private DbHelper db;
 	
 	@Override
@@ -34,7 +35,19 @@ public class MnemProvider extends ContentProvider {
 	
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		Cursor cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+		
+		Cursor cursor = null;
+		switch (uriMatcher.match(uri)) {
+		case MNEMONS:
+			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+			break;
+		case RELATED:
+			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+			break;
+
+		default:
+			break;
+		}
 		return cursor;
 	}
 	
@@ -87,6 +100,7 @@ public class MnemProvider extends ContentProvider {
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI("com.mnemr", Mnem.TABLE_NAME, MNEMONS);
+		uriMatcher.addURI("com.mnemr", Mnem.TABLE_NAME+"/#/related", RELATED);
 	}
 	
 	
