@@ -6,7 +6,7 @@
     >
     <ImageButton 
    android:id="@+id/addmemo_id"
-	android:src="@drawable/icon"
+	android:src="@android:drawable/ic_menu_preferences"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:layout_weight="1"
