@@ -14,6 +14,7 @@ public class MainActivity extends Activity {
         
         
         ImageButton addbtn = (ImageButton) findViewById(R.id.addmemo_id);
+        //addbtn.setBackgroundResource(android.R.drawable.ic_input_add)
         ImageButton mnmrListbtn = (ImageButton) findViewById(R.id.mnemrlist_id);
         ImageButton cardsbtn = (ImageButton) findViewById(R.id.mnemrcards_id);
         
