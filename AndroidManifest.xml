@@ -19,6 +19,7 @@
         <provider android:name=".provider.MnemProvider"
         			android:authorities="com.mnemr">
         </provider>
+        <activity android:name="MnemListActivity"></activity>
 
 </application>
 </manifest>
