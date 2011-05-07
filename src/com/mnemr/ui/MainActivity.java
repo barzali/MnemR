@@ -1,5 +1,7 @@
 package com.mnemr.ui;
 
+import com.mnemr.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,8 +51,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 					
 				}
 				if (imButton.getId() == R.id.mnemrcards_id) {
-					Toast.makeText(MainActivity.this, "flash cards :) !",
-							Toast.LENGTH_SHORT).show();
+					Intent listIntent = new Intent(MainActivity.this,FlashcardsActivity.class);
+					startActivity(listIntent);
 				}
 			}
 

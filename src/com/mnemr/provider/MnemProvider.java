@@ -71,7 +71,7 @@ public class MnemProvider extends ContentProvider {
 	
 	class DbHelper extends SQLiteOpenHelper {
 
-		private static final int VERSION = 0;
+		private static final int VERSION = 1;
 
 		public DbHelper(Context context) {
 			super(context, "mnemr.db", null, VERSION);
@@ -85,7 +85,9 @@ public class MnemProvider extends ContentProvider {
 							Mnem.IMAGE+" TEXT," +
 							Mnem.TEXT+" TEXT" +
 						");");
-			
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (1, 'sound', 'image', 'hello mnemR');");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (2, 'sound', 'image', 'hello Adnane');");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (3, 'sound', 'image', 'hell Du ****!');");
 		}
 
 		@Override
