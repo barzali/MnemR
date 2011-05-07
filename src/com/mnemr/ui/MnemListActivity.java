@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
@@ -36,12 +37,18 @@ public class MnemListActivity extends ExpandableListActivity {
 
 			@Override
 			protected View newGroupView(Context context, Cursor cursor, boolean isExpanded, ViewGroup parent) {
-				TextView v = new TextView(context);
-				v.setBackgroundColor(Color.BLACK);
-				v.setTextColor(Color.GRAY);
-				v.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-				v.setText("hui");
-				return v;
+				// Layout parameters for the ExpandableListView
+				AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
+						ViewGroup.LayoutParams.MATCH_PARENT, 64);
+
+				TextView textView = new TextView( context);
+				textView.setLayoutParams(lp);
+				// Center the text vertically
+				textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+				// Set the text starting position
+				textView.setPadding(36, 0, 0, 0);
+				return textView;
+				
 			}
 
 			@Override
