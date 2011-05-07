@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <ImageButton 
+   android:id="@+id/addmemo_id"
+	android:src="@drawable/icon"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:layout_weight="1"
+/>
+<ImageButton 
+ android:id="@+id/mnemrlist_id"
+	android:src="@drawable/icon"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:layout_weight="1"
+/>
+<ImageButton 
+    android:id="@+id/mnemrcards_id"
+	android:src="@drawable/icon"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:layout_weight="1"
+/>
+ 
+</LinearLayout>
