@@ -6,6 +6,7 @@ package com.mnemr.ui;
 import com.mnemr.controller.MnemoListAdapter;
 import com.mnemr.provider.Mnem;
 
+import android.R;
 import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.database.Cursor;
@@ -40,7 +41,7 @@ public class MnemListActivity extends ExpandableListActivity {
 				// Layout parameters for the ExpandableListView
 				AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
 						ViewGroup.LayoutParams.MATCH_PARENT, 64);
-
+				
 				TextView textView = new TextView( context);
 				textView.setLayoutParams(lp);
 				// Center the text vertically

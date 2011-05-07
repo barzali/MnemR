@@ -15,7 +15,9 @@
             </intent-filter>
         </activity>
         
-	    <activity android:name=".ui.FlashcardsActivity"></activity>
+	    <activity android:name=".ui.FlashcardsActivity"
+	    			android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+	    </activity>
     
         <provider android:name=".provider.MnemProvider"
         			android:authorities="com.mnemr">
