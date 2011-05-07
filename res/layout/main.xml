@@ -4,9 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+     
     <ImageButton 
    android:id="@+id/addmemo_id"
-	android:src="@android:drawable/ic_menu_preferences"
+	android:src="@android:drawable/ic_input_add"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:layout_weight="1"
