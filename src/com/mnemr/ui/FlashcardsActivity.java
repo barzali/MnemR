@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorTreeAdapter;
@@ -21,6 +22,11 @@ public class FlashcardsActivity extends Activity {
 	private CardsView mCardsView;
 	private CursorTreeAdapter mAdapter;
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return mCardsView.onTouchEvent(event);
+    }
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -1,37 +1,28 @@
 package com.mnemr.ui;
 
-import java.util.Currency;
-
-import com.mnemr.ui.animation.Rotate3dAnimation;
-import com.mnemr.ui.animation.UpAnimation;
-
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Animation.AnimationListener;
-import android.widget.Adapter;
-import android.widget.AdapterView;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.mnemr.ui.animation.Rotate3dAnimation;
+import com.mnemr.ui.animation.UpAnimation;
 
 public class CardsView extends FrameLayout {
 
     private static final String TAG = "CardsView";
-    private static final long SPEED = 1000;
+    private static final long SPEED = 170;
     protected static final int SCROLLING = 1;
     private TextView mCurrentView;
     private TextView mOtherView;
@@ -244,7 +235,7 @@ public class CardsView extends FrameLayout {
                 rotation = new Rotate3dAnimation(from*-180, Math.min(90, to*-180), centerX, centerY, 310.0f, true);
             rotation.setDuration(SPEED/2);
             rotation.setFillAfter(true);
-            rotation.setInterpolator(new AccelerateInterpolator());
+            rotation.setInterpolator(new DecelerateInterpolator());
             mCurrentView.startAnimation(rotation);
             
                 if (Math.abs(to) > 0.5) {
@@ -268,7 +259,7 @@ public class CardsView extends FrameLayout {
                             
                             rotation.setDuration(SPEED/2);
                             rotation.setFillAfter(true);
-                            rotation.setInterpolator(new DecelerateInterpolator());
+                            rotation.setInterpolator(new AccelerateInterpolator());
                             
                             mOtherView.setVisibility(View.GONE);
                             mCurrentView.setVisibility(View.VISIBLE);
@@ -314,7 +305,7 @@ public class CardsView extends FrameLayout {
         rotation.setInterpolator(new DecelerateInterpolator());
         otherRotation.setDuration(SPEED);
         otherRotation.setFillAfter(true);
-        otherRotation.setInterpolator(new DecelerateInterpolator());
+        otherRotation.setInterpolator(new AccelerateInterpolator());
         
         rotation.setAnimationListener(new AnimationListener() {
 
