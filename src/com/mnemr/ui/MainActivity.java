@@ -3,6 +3,7 @@ package com.mnemr.ui;
  
  
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,6 +70,18 @@ public class MainActivity extends Activity implements OnTouchListener {
 		return false;
 	}
 	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+	    
+		// search
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+	      String query = intent.getStringExtra(SearchManager.QUERY);
+	      if (query == null) query = intent.getDataString(); // touch
+	      Toast.makeText(this, "Search: "+query, Toast.LENGTH_LONG).show();
+	    }
+
+	}
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -8,7 +8,9 @@ import com.mnemr.provider.Mnem;
 
 import android.R;
 import android.app.ExpandableListActivity;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -21,6 +23,7 @@ import android.widget.AbsListView;
 import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Hamid
@@ -34,6 +37,15 @@ public class MnemListActivity extends ExpandableListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		// search
+		Intent intent = getIntent();
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+	      String query = intent.getStringExtra(SearchManager.QUERY);
+	      if (query == null) query = intent.getDataString(); // touch
+	      Toast.makeText(this, "Search: "+query, Toast.LENGTH_LONG).show();
+	    }
+		
 		adapter=new CursorTreeAdapter(getContentResolver().query(Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null), this) {
 
 			@Override

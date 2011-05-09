@@ -1,5 +1,6 @@
 package com.mnemr.provider;
 
+import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -16,6 +17,7 @@ public class MnemProvider extends ContentProvider {
 	private static final UriMatcher uriMatcher;
 	private static final int MNEMONS = 1;
 	private static final int RELATED = 2;
+	private static final int SEARCH = 3;
 	private DbHelper db;
 	
 	@Override
@@ -41,7 +43,15 @@ public class MnemProvider extends ContentProvider {
 		case RELATED:
 			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 			break;
-
+		case SEARCH:
+			if (uri.getPathSegments().size() > 1)
+				selection = "text LIKE '"+uri.getLastPathSegment()+"%'";
+			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, new String[] {
+					Mnem._ID, Mnem._ID +
+					" AS "+SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID,
+					Mnem.TEXT+" AS "+SearchManager.SUGGEST_COLUMN_TEXT_1
+					}, selection, selectionArgs, null, null, sortOrder);
+			break;
 		default:
 			break;
 		}
@@ -103,6 +113,8 @@ public class MnemProvider extends ContentProvider {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI("com.mnemr", Mnem.TABLE_NAME, MNEMONS);
 		uriMatcher.addURI("com.mnemr", Mnem.TABLE_NAME+"/#/related", RELATED);
+		uriMatcher.addURI("com.mnemr", SearchManager.SUGGEST_URI_PATH_QUERY, SEARCH);
+		uriMatcher.addURI("com.mnemr", SearchManager.SUGGEST_URI_PATH_QUERY+"/*", SEARCH);
 	}
 	
 	
