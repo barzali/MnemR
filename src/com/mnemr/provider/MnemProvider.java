@@ -55,13 +55,15 @@ public class MnemProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri arg0, String selection, String[] selectionArgs) {
-		return db.getWritableDatabase().delete(Mnem.TABLE_NAME, selection, selectionArgs);
+//		return db.getWritableDatabase().delete(Mnem.TABLE_NAME, selection, selectionArgs);
+		db.getWritableDatabase().execSQL("DROP TABLE "+Mnem.TABLE_NAME+";");
+		db.onCreate(db.getWritableDatabase());
+		return 0;
 	}
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
-		return null;
+		return "vnd.android.cursor.dir/vnd.mnemr.mnemon";
 	}
 	
 	

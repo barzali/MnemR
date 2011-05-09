@@ -7,22 +7,38 @@
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
     
+	    <activity android:name=".ui.FlashcardsActivity"
+	    			android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+	    </activity>
+            
         <activity android:name=".ui.MainActivity"
-                  android:label="@string/app_name">
+                	android:label="@string/app_name"
+                  	android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-	    <activity android:name=".ui.FlashcardsActivity"
-	    			android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-	    </activity>
-    
+		<activity android:name=".ui.MnemEditorActivity"
+					android:screenOrientation="landscape"
+				  	android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+                <action android:name="android.intent.action.INSERT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.dir/vnd.mnemr.mnemon"/>
+            </intent-filter>
+		</activity>
+
+        <activity android:name=".ui.MnemListActivity"
+        			android:screenOrientation="portrait"
+        			android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+
         <provider android:name=".provider.MnemProvider"
         			android:authorities="com.mnemr">
         </provider>
-        <activity android:name=".ui.MnemListActivity"></activity>
 
 </application>
+<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 </manifest>
