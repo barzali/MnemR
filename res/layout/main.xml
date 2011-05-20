@@ -6,13 +6,14 @@
     >
      
     <!--ImageButton 
-     
+     android:id="@+id/addmemo_id"
+	android:src="@android:drawable/ic_menu_add"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:layout_weight="1"
 />
 <ImageButton 
-    android:id="@+id/mnemrlist_id"
+ android:id="@+id/mnemrlist_id"
 	android:src="@android:drawable/ic_menu_agenda"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 

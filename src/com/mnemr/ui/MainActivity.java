@@ -64,6 +64,10 @@ public class MainActivity extends Activity implements OnTouchListener {
 					Intent listIntent = new Intent(MainActivity.this,FlashcardsActivity.class);
 					startActivity(listIntent);
 				}
+				if (imButton.getId() == R.id.search) {
+					 
+					onSearchRequested();
+				}
 			}
 
 		}

@@ -30,10 +30,11 @@ import android.widget.Toast;
 
 import com.mnemr.R;
 import com.mnemr.provider.Mnem;
+import com.mnemr.utils.MnemrUtil;
  
 
 /**
- * @author Hamid
+ * @author barzali.
  *
  */
 public class MnemListActivity extends Activity implements OnTouchListener{
@@ -113,10 +114,12 @@ public class MnemListActivity extends Activity implements OnTouchListener{
 		ImageButton mnmrListbtn = (ImageButton) findViewById(R.id.mnemrlist_id);
 
 		ImageButton cardsbtn = (ImageButton) findViewById(R.id.mnemrcards_id);
+		ImageButton searchbtn = (ImageButton) findViewById(R.id.search);
 
 		addbtn.setOnTouchListener(this);
 		mnmrListbtn.setOnTouchListener(this);
 		cardsbtn.setOnTouchListener(this);
+		searchbtn.setOnTouchListener(this);
 
 	}
 
@@ -137,6 +140,8 @@ public class MnemListActivity extends Activity implements OnTouchListener{
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 123, 0, "Delete All")
         	.setIcon(android.R.drawable.ic_menu_delete);
+        menu.add(1, 124, 0, "Info")
+        .setIcon(android.R.drawable.ic_menu_info_details);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -146,7 +151,19 @@ public class MnemListActivity extends Activity implements OnTouchListener{
         case 123:
            	getContentResolver().delete(Mnem.CONTENT_URI, null, null);
            	Toast.makeText(this, "Deleted.", Toast.LENGTH_LONG).show();
+           	
+           	// refresh the listview!
+           	if (getExpandableListView()!=null) {
+				getExpandableListView().invalidate();
+			}
             break;
+        default:
+        	
+        	 
+        	MnemrUtil.showInfoDialog(getString(R.string.info_text), MnemListActivity.this);
+        	
+        	
+			break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -156,7 +173,18 @@ public class MnemListActivity extends Activity implements OnTouchListener{
 		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
 		
-		onSearchRequested();
+		// search
+		//Intent intent = getIntent();
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+		String query = intent.getStringExtra(SearchManager.QUERY);
+		if (query == null) query = intent.getDataString(); // touch
+		Toast.makeText(this, "Search: "+query, Toast.LENGTH_LONG).show();
+		} 
+			
+			Toast.makeText(MnemListActivity.this, " new "+intent.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
+		 
+		
+		
 	}
 
 	public boolean onTouch(View v, MotionEvent event) {
@@ -169,18 +197,19 @@ public class MnemListActivity extends Activity implements OnTouchListener{
 				Intent intent = new Intent(Intent.ACTION_INSERT, Mnem.CONTENT_URI);
 				startActivity(intent);
 			}
-			if (imButton.getId() == R.id.mnemrlist_id) {
-//				Toast.makeText(MainActivity.this, "list of mnemos ;)",
-//						Toast.LENGTH_SHORT).show();
+			if (imButton.getId() == R.id.mnemrlist_id) { 
 				
 				Intent listIntent = new Intent(MnemListActivity.this,MnemListActivity.class);
-				startActivity(listIntent);
-				
+				startActivity(listIntent); 
 				
 			}
 			if (imButton.getId() == R.id.mnemrcards_id) {
 				Intent listIntent = new Intent(MnemListActivity.this,FlashcardsActivity.class);
 				startActivity(listIntent);
+			}
+			if (imButton.getId() == R.id.search) {
+				//Toast.makeText(MnemListActivity.this, " search !", Toast.LENGTH_SHORT).show();
+				onSearchRequested();
 			}
 		}
 

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, MainActivity!</string>
+    <string name="info_text">MnemR
+
+Often times computers store things for humans and remind them at time.
+MnemR is about the other way around: helping people remember things themselves in the human memory.
+Continious repetition with visual and auditive anchors (mnemonics) aid the process by making things more sticky in long-term memory.
+MnemR (pron. - Nehmer -) is a mnemonic content learning tool for the android platform designed to enable all kinds of human memory trainer applications..
+</string>
     <string name="app_name">MNEMR</string>
 </resources>
