@@ -3,7 +3,9 @@
  */
 package com.mnemr.ui;
 
-import android.app.ExpandableListActivity;
+ 
+ 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,30 +14,40 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mnemr.R;
 import com.mnemr.provider.Mnem;
+ 
 
 /**
  * @author Hamid
  *
  */
-public class MnemListActivity extends ExpandableListActivity {
-
+public class MnemListActivity extends Activity implements OnTouchListener{
 
 	private ExpandableListAdapter adapter;
+	private ExpandableListView expandableListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	// TODO Auto-generated method stub
 	super.onCreate(savedInstanceState);
-
+     setContentView(R.layout.actionbar_main_layout);
+     
+     setExpandableListView((ExpandableListView) findViewById(R.id.listView));
 	// search
 	Intent intent = getIntent();
 	if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -94,9 +106,86 @@ public class MnemListActivity extends ExpandableListActivity {
 	//scaleToFit((TextView) view);
 	}
 	};
-	setListAdapter(adapter);
+	 getExpandableListView().setAdapter(adapter);
+	 
+	 ImageButton addbtn = (ImageButton) findViewById(R.id.addmemo_id);
 
+		ImageButton mnmrListbtn = (ImageButton) findViewById(R.id.mnemrlist_id);
+
+		ImageButton cardsbtn = (ImageButton) findViewById(R.id.mnemrcards_id);
+
+		addbtn.setOnTouchListener(this);
+		mnmrListbtn.setOnTouchListener(this);
+		cardsbtn.setOnTouchListener(this);
 
 	}
+
+	/**
+	 * @param expandableListView the expandableListView to set
+	 */
+	public void setExpandableListView(ExpandableListView expandableListView) {
+		this.expandableListView = expandableListView;
 	}
 
+	/**
+	 * @return the expandableListView
+	 */
+	public ExpandableListView getExpandableListView() {
+		return expandableListView;
+	}
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 123, 0, "Delete All")
+        	.setIcon(android.R.drawable.ic_menu_delete);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case 123:
+           	getContentResolver().delete(Mnem.CONTENT_URI, null, null);
+           	Toast.makeText(this, "Deleted.", Toast.LENGTH_LONG).show();
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		super.onNewIntent(intent);
+		
+		onSearchRequested();
+	}
+
+	public boolean onTouch(View v, MotionEvent event) {
+		if (v instanceof ImageButton) {
+			ImageButton imButton = (ImageButton) v;
+
+			if (imButton.getId() == R.id.addmemo_id) {
+				Toast.makeText(MnemListActivity.this, "ad mnemo !", Toast.LENGTH_SHORT).show();
+				
+				Intent intent = new Intent(Intent.ACTION_INSERT, Mnem.CONTENT_URI);
+				startActivity(intent);
+			}
+			if (imButton.getId() == R.id.mnemrlist_id) {
+//				Toast.makeText(MainActivity.this, "list of mnemos ;)",
+//						Toast.LENGTH_SHORT).show();
+				
+				Intent listIntent = new Intent(MnemListActivity.this,MnemListActivity.class);
+				startActivity(listIntent);
+				
+				
+			}
+			if (imButton.getId() == R.id.mnemrcards_id) {
+				Intent listIntent = new Intent(MnemListActivity.this,FlashcardsActivity.class);
+				startActivity(listIntent);
+			}
+		}
+
+	 
+		return false;
+	}
+	
+	}

@@ -3,8 +3,12 @@ package com.mnemr.ui;
  
  
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -12,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.mnemr.R;
+import com.mnemr.provider.Mnem;
+
 
 public class MainActivity extends Activity implements OnTouchListener {
 	/** Called when the activity is first created. */
@@ -40,8 +46,10 @@ public class MainActivity extends Activity implements OnTouchListener {
 				ImageButton imButton = (ImageButton) v;
 
 				if (imButton.getId() == R.id.addmemo_id) {
-					Toast.makeText(MainActivity.this, "ad mnemo !",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(MainActivity.this, "ad mnemo !", Toast.LENGTH_SHORT).show();
+					
+					Intent intent = new Intent(Intent.ACTION_INSERT, Mnem.CONTENT_URI);
+					startActivity(intent);
 				}
 				if (imButton.getId() == R.id.mnemrlist_id) {
 //					Toast.makeText(MainActivity.this, "list of mnemos ;)",
@@ -59,7 +67,37 @@ public class MainActivity extends Activity implements OnTouchListener {
 			}
 
 		}
-
 		return false;
 	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+	    
+		// search
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+	      String query = intent.getStringExtra(SearchManager.QUERY);
+	      if (query == null) query = intent.getDataString(); // touch
+	      Toast.makeText(this, "Search: "+query, Toast.LENGTH_LONG).show();
+	    }
+
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 123, 0, "Delete All")
+        	.setIcon(android.R.drawable.ic_menu_delete);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case 123:
+           	getContentResolver().delete(Mnem.CONTENT_URI, null, null);
+           	Toast.makeText(this, "Deleted.", Toast.LENGTH_LONG).show();
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
