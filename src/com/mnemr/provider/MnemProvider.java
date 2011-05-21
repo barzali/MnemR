@@ -1,4 +1,10 @@
 /**
+  *  __  __                      ___
+  * |  \/  |_ __   ___ _ __ ___ |  _ \ 
+  * | |\/| | '_ \ / _ \ '_ ` _ \| |_) |
+  * | |  | | | | |  __/ | | | | |  _ < 
+  * |_|  |_|_| |_|\___|_| |_| |_|_| \_\
+  *
   * Copyright (c) 2011: mnemr.com contributors. All rights reserved.
   *
   * This program is free software: you can redistribute it and/or modify
@@ -35,6 +41,7 @@ public class MnemProvider extends ContentProvider {
 	private static final int MNEMONS = 1;
 	private static final int RELATED = 2;
 	private static final int SEARCH = 3;
+	private static final int MNEMON = 4;
 	private DbHelper db;
 	
 	@Override
@@ -55,6 +62,10 @@ public class MnemProvider extends ContentProvider {
 		Cursor cursor = null;
 		switch (uriMatcher.match(uri)) {
 		case MNEMONS:
+			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+			break;
+		case MNEMON:
+			selection = Mnem._ID+"="+uri.getLastPathSegment();
 			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 			break;
 		case RELATED:
@@ -126,6 +137,7 @@ public class MnemProvider extends ContentProvider {
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI("com.mnemr", Mnem.TABLE_NAME, MNEMONS);
+		uriMatcher.addURI("com.mnemr", Mnem.TABLE_NAME+"/#", MNEMON);
 		uriMatcher.addURI("com.mnemr", Mnem.TABLE_NAME+"/#/related", RELATED);
 		uriMatcher.addURI("com.mnemr", SearchManager.SUGGEST_URI_PATH_QUERY, SEARCH);
 		uriMatcher.addURI("com.mnemr", SearchManager.SUGGEST_URI_PATH_QUERY+"/*", SEARCH);
