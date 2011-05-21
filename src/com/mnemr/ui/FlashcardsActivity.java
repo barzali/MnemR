@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mnemr.provider.Mnem;
+import com.mnemr.utils.MnemrUtil;
 
 public class FlashcardsActivity extends Activity {
 
@@ -120,6 +121,7 @@ public class FlashcardsActivity extends Activity {
 	 */
 	public void setCuAdapter(CursorTreeAdapter mAdapter) {
 		if (mAdapter.getGroupCount() == 0) {
+			MnemrUtil.showToast("there are no mnemrs !  ", FlashcardsActivity.this);
 			finish();
 		}
 

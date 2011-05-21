@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import com.mnemr.ui.animation.Rotate3dAnimation;
 import com.mnemr.ui.animation.UpAnimation;
+import com.mnemr.utils.MnemrUtil;
 
 public class CardsView extends FrameLayout {
 
@@ -172,12 +173,14 @@ public class CardsView extends FrameLayout {
     public void refresh() {
     	if (mAdapter.getGroupCount()==0) {
 			Log.e(getClass().getSimpleName(), "count == 0");
-			
+			MnemrUtil.showToast("there are no mnemrs !  ", getContext());
 			if (getContext() instanceof Activity) {
 				Activity activity = (Activity) getContext();
 				activity.finish();
 				
 			}
+			
+			 
 			
 			
 		}else {
