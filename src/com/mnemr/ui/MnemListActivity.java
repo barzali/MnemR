@@ -74,6 +74,13 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 				Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null), this) {
 
 			@Override
+					public boolean isChildSelectable(int groupPosition,
+							int childPosition) {
+						// TODO Auto-generated method stub
+						return super.isChildSelectable(groupPosition, childPosition);
+					}
+			
+			@Override
 			protected View newGroupView(Context context, Cursor cursor,
 					boolean isExpanded, ViewGroup parent) {
 				View view = createListViewItem(context);
@@ -88,10 +95,23 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 				// ((TextView) view).setText(cursor.getString(1));
 
 				if (view.getId() == R.id.listItemContainer) {
+					
 					TextView textView = (TextView) view
 							.findViewById(R.id.mnemr_text_id);
+					
+					textView.setOnTouchListener(MnemListActivity.this);
+					
+					/**
+					 *  TextView mnemrFoto = (TextView) view.findViewById(R.id.mnemrphoto_id);
+					 
+					 mnemrFoto.setOnTouchListener(MnemListActivity.this);
+					 
+					 TextView mnemrSound = (TextView) view.findViewById(R.id.sound_imagebtn); 
+					mnemrSound.setOnTouchListener(MnemListActivity.this);
+					 
 					String text = cursor.getString(1);
 					textView.setText(text);
+					 */
 				}
 			}
 
@@ -110,6 +130,8 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 			}
 
 			private View createListViewItem(Context context) {
+				
+				
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View textView = inflater.inflate(R.layout.listview_item, null);
@@ -122,11 +144,42 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 					Cursor cursor, boolean isLastChild) {
 
 				if (view.getId() == R.id.listItemContainer) {
-					TextView textView = (TextView) view
-							.findViewById(R.id.mnemr_text_id);
-					// textView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.icon));
-					String text = cursor.getString(1);
-					textView.setText(text);
+ 
+					
+					
+					
+					
+					
+					
+					
+					if (view.getId() == R.id.listItemContainer) {
+						
+						TextView textView = (TextView) view
+								.findViewById(R.id.mnemr_text_id);
+						
+						textView.setOnTouchListener(MnemListActivity.this);
+						
+						/**
+						 *  TextView mnemrFoto = (TextView) view.findViewById(R.id.mnemrphoto_id);
+						 
+						 mnemrFoto.setOnTouchListener(MnemListActivity.this);
+						 
+						 TextView mnemrSound = (TextView) view.findViewById(R.id.sound_imagebtn); 
+						mnemrSound.setOnTouchListener(MnemListActivity.this);
+						 
+						String text = cursor.getString(1);
+						textView.setText(text);
+						 */
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					
 				}
 			}
 		});
@@ -213,7 +266,14 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 	}
 
 	public boolean onTouch(View v, MotionEvent event) {
+		
+		if (MotionEvent.ACTION_UP == event.getAction()) {
+			
+		 
+		
+		
 		if (v instanceof ImageButton) {
+			
 			ImageButton imButton = (ImageButton) v;
 
 			if (imButton.getId() == R.id.addmemo_id) {
@@ -242,8 +302,34 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 				onSearchRequested();
 			}
 		}
+		  
+		else if (v instanceof TextView) {
+			 
+		      TextView view = (TextView) v;
+		    
+			  if (view.getId() == R.id.mnemr_text_id) {
+				Toast.makeText(MnemListActivity.this, " search !",
+						Toast.LENGTH_SHORT).show();
 
-		return false;
+			}
+			  
+			  /*
+			    *  if (view.getId() == R.id.mnemrphoto_id) {
+					Toast.makeText(MnemListActivity.this, " search !",
+							Toast.LENGTH_SHORT).show();
+				}  
+			    
+			else if (view.getId() == R.id.sound_imagebtn) {
+//				
+				Toast.makeText(MnemListActivity.this, " search !",
+						Toast.LENGTH_SHORT).show();
+			}
+			 */	
+	}
+		
+		}
+
+		return true;
 	}
 
 	/**
