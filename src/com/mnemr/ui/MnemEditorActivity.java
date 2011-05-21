@@ -23,6 +23,8 @@ import com.mnemr.provider.Mnem;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -45,6 +47,7 @@ public class MnemEditorActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
+	    
 	    setContentView(R.layout.editor);
 	    text = (EditText) findViewById(R.id.text);
 	    
@@ -63,16 +66,32 @@ public class MnemEditorActivity extends Activity {
 			}
 			
 		});
+
+	    if (getIntent().getAction().equals(Intent.ACTION_EDIT)) {
+	    	Cursor cursor = getContentResolver().query(getIntent().getData(), Mnem.PROJECTION, null, null, null);
+	    	if (cursor.getCount() > 0) {
+	    		cursor.moveToFirst();
+	    		text.setText(cursor.getString(cursor.getColumnIndex(Mnem.TEXT)));
+	    	}
+	    	
+	    }
 	    
 	    findViewById(R.id.image).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				ContentValues values = new ContentValues();
 				values.put(Mnem.TEXT, text.getText().toString());
-				getContentResolver().insert(Mnem.CONTENT_URI, values);
 				((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(30);
-				Toast.makeText(MnemEditorActivity.this, "saved", Toast.LENGTH_SHORT).show();
-				text.setText("");
+				
+				if (getIntent().getAction().equals(Intent.ACTION_EDIT)) {
+					getContentResolver().update(getIntent().getData(), values, null, null);
+					Toast.makeText(MnemEditorActivity.this, "updated", Toast.LENGTH_SHORT).show();
+					finish();
+				} else {
+					getContentResolver().insert(Mnem.CONTENT_URI, values);
+					Toast.makeText(MnemEditorActivity.this, "saved", Toast.LENGTH_SHORT).show();
+					text.setText("");
+				}
 			}
 		});
 	    

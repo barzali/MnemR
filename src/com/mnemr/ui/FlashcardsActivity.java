@@ -27,7 +27,9 @@
 package com.mnemr.ui;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -122,6 +124,15 @@ public class FlashcardsActivity extends Activity {
 		mCardsView.setOnCreateContextMenuListener(this);
 	}
 
+	@Override
+	protected void onRestart() {
+		mAdapter.getCursor().requery();
+		mCardsView = new CardsView(this);
+		setContentView(mCardsView);
+		mCardsView.setAdapter(mAdapter);
+		super.onRestart();
+	}
+	
 	/**
 	 * @param mAdapter
 	 *            the mAdapter to set
@@ -144,14 +155,16 @@ public class FlashcardsActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 123, 0, "Delete")
-				.setIcon(android.R.drawable.ic_menu_delete);
+		menu.add(0, 123, 0, "Delete").setIcon(android.R.drawable.ic_menu_delete);
+		menu.add(0, 456, 0, "Edit").setIcon(android.R.drawable.ic_menu_edit);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		
+		Uri uri = ContentUris.withAppendedId(Mnem.CONTENT_URI, mAdapter.getCursor().getInt(0));
+		
 		switch (item.getItemId()) {
 		case 123:
 
@@ -176,6 +189,10 @@ public class FlashcardsActivity extends Activity {
 				// setContentView(mCardsView);
 				Toast.makeText(this, "cleared", Toast.LENGTH_LONG).show();
 			}
+			break;
+			
+		case 456:
+			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 			break;
 		}
 		return super.onOptionsItemSelected(item);
