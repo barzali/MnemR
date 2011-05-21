@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mnemr.provider.Mnem;
+import com.mnemr.utils.MnemrUtil;
 
 public class FlashcardsActivity extends Activity {
 
@@ -57,6 +58,7 @@ public class FlashcardsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		mCardsView = new CardsView(this);
+
 		setContentView(mCardsView);
 
 		setCuAdapter(new CursorTreeAdapter(getContentResolver().query(
@@ -129,6 +131,11 @@ public class FlashcardsActivity extends Activity {
 	 *            the mAdapter to set
 	 */
 	public void setCuAdapter(CursorTreeAdapter mAdapter) {
+		if (mAdapter.getGroupCount() == 0) {
+			MnemrUtil.showToast("there are no mnemrs !  ", FlashcardsActivity.this);
+			finish();
+		}
+
 		this.mAdapter = mAdapter;
 	}
 
@@ -153,19 +160,30 @@ public class FlashcardsActivity extends Activity {
 		
 		switch (item.getItemId()) {
 		case 123:
-			Log.d("id", "" + mAdapter.getCursor().getInt(0));
-			getContentResolver().delete(Mnem.CONTENT_URI,
-					Mnem._ID + "=" + mAdapter.getCursor().getInt(0), null);
-			mAdapter.getCursor().requery();
-			 
-			mCardsView = new CardsView(this);
-			
-			//mCardsView.setAdapter(mAdapter);
-			mCardsView.invalidate();
-			mCardsView.postInvalidate();
-			setContentView(mCardsView);
-			Toast.makeText(this, "cleared", Toast.LENGTH_LONG).show();
+
+			Cursor cursor = mAdapter.getCursor();
+
+			if (cursor != null) {
+
+				int var = cursor.getInt(0);
+				Log.d("id", "" + var);
+				getContentResolver().delete(Mnem.CONTENT_URI,
+						Mnem._ID + "=" + var, null);
+				cursor.requery();
+
+				// mCardsView = new CardsView(this);
+
+				// mCardsView.setAdapter(mAdapter);
+				// mCardsView.invalidate();
+				// mCardsView.postInvalidate();
+				// mCardsView.animateCurl(false);
+				;
+				mCardsView.refresh();
+				// setContentView(mCardsView);
+				Toast.makeText(this, "cleared", Toast.LENGTH_LONG).show();
+			}
 			break;
+			
 		case 456:
 			startActivity(new Intent(Intent.ACTION_EDIT, uri));
 			break;

@@ -18,6 +18,7 @@
 
 package com.mnemr.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -36,6 +37,7 @@ import android.widget.TextView;
 
 import com.mnemr.ui.animation.Rotate3dAnimation;
 import com.mnemr.ui.animation.UpAnimation;
+import com.mnemr.utils.MnemrUtil;
 
 public class CardsView extends FrameLayout {
 
@@ -61,14 +63,7 @@ public class CardsView extends FrameLayout {
            public boolean onDoubleTap(MotionEvent e) {
                 Log.d(TAG, "onDoubletap");
                 
-                mCurrentView.setTextColor(Color.RED);
-//                Sound.play(((Cursor)mAdapter.getChild(mGroupPosition, mChildPosition)).getString(2), new OnCompletionListener(){
-//
-//                    @Override
-//                    public void onCompletion(MediaPlayer mp) {
-//                        mCurrentView.setTextColor(Color.LTGRAY);
-//                    }});
-                
+                mCurrentView.setTextColor(Color.RED); 
                return super.onDoubleTap(e);
            }
 
@@ -85,22 +80,7 @@ public class CardsView extends FrameLayout {
             }
 
             @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-//                Log.d(TAG, "onScroll:  x="+distanceX+" ("+e1.getX()+"|"+e2.getX()+")"+"y="+distanceY);
-                
-//                if (e1.getX() > 150) {
-//                    if (mState == 0) {
-//                        Log.d(TAG, "start SCROLL");
-//                        if (mChildPosition < mAdapter.getChildrenCount(mGroupPosition)-1) {
-//                            mChildPosition++;
-//                            mOtherView = (TextView) mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
-//                            animateRotation(mState, mState = 1 - (e2.getX()/e1.getX()));
-//                        }
-//                    } else {
-//                        animateRotation(mState, mState = 1 - (e2.getX()/e1.getX()));
-//                    }
-//                }
-                
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) { 
                 return super.onScroll(e1, e2, distanceX, distanceY);
             }
 
@@ -178,20 +158,42 @@ public class CardsView extends FrameLayout {
                        else 
                            mGroupPosition = mAdapter.getGroupCount()-1;
                        
-                       mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
-                       animateCurl(false);
+                       refresh();
                    }
                }
                // Toast.makeText(BrainR.this,
                // "Aha: "+velocityX+" - "+velocityY, 7000).show();
                return super.onFling(e1, e2, velocityX, velocityY);
            }
+
+		 
        });
         
     }
+    public void refresh() {
+    	if (mAdapter.getGroupCount()==0) {
+			Log.e(getClass().getSimpleName(), "count == 0");
+			MnemrUtil.showToast("there are no mnemrs !  ", getContext());
+			if (getContext() instanceof Activity) {
+				Activity activity = (Activity) getContext();
+				activity.finish();
+				
+			}
+			
+			 
+			
+			
+		}else {
+			mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+			   animateCurl(false);
+		}
+		 
+	}
     
     public void setAdapter(CursorTreeAdapter adapter) {
         mAdapter = adapter;
+        if (adapter.getGroupCount() == 0)
+        	return;
         mCurrentView = (TextView) adapter.getGroupView(mGroupPosition, false, mCurrentView, this);
         mOtherView = (TextView) adapter.getGroupView(mGroupPosition, false, mOtherView, this);
         addView(mCurrentView);
@@ -225,21 +227,12 @@ public class CardsView extends FrameLayout {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-//        Log.d(TAG, "onTouch   "+event.getAction()+"  "+mState);
-//        if (mState != 0 && event.getAction() == 1) {
-//            Log.d(TAG, "stop SCROLL");
-//            if (mState > 0)
-//                animateRotation(mState, 1);
-//            else
-//                animateRotation(mState, -1);
-//            mState = 1;
-//        }
+    public boolean onTouchEvent(MotionEvent event) { 
         return detector.onTouchEvent(event);
     }
     
 
-    private void animateRotation(final float from, final float to) {
+    public void animateRotation(final float from, final float to) {
         // Find the center of the container
         final float centerX = getWidth() / 2.0f;
         final float centerY = getHeight() / 2.0f;
@@ -303,7 +296,7 @@ public class CardsView extends FrameLayout {
 
     }
     
-    private void animateCurl(boolean up) {
+    public void animateCurl(boolean up) {
         final float centerX = getWidth() / 2.0f;
         final float centerY = getHeight();
         UpAnimation rotation; 
@@ -345,6 +338,9 @@ public class CardsView extends FrameLayout {
         mCurrentView.startAnimation(rotation);
         mOtherView.startAnimation(otherRotation);
     }
+    
+    
+    
 
 
 }
