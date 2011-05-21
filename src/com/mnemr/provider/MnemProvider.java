@@ -88,6 +88,7 @@ public class MnemProvider extends ContentProvider {
 	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+		selection = Mnem._ID+"="+uri.getLastPathSegment();
 		return db.getWritableDatabase().update(Mnem.TABLE_NAME, values, selection, selectionArgs);
 	}
 
