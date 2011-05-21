@@ -1,20 +1,26 @@
 package com.mnemr.utils;
+import java.io.File;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Environment;
+
+import com.mnemr.R;
 
 /**
  * 
  */
 
 /**
- * @author barzali
+ * @author barzali.
  *
  */
 public class MnemrUtil {
 
-	
+	public static final String Log ="MnemrUtil";
 	
 	public static  void showInfoDialog(String text,  
 			final Context context) {
@@ -45,6 +51,60 @@ public class MnemrUtil {
 		  
 	}
 	
+	
+	/**
+	 * - make sure we have a mounted SDCard 
+	 * - this method creates the App Folder to
+	 *  
+	 *  
+
+	 * @param context
+	 *            {@link Context}
+	 */
+	public static void CreateAppFolder(Context context) {
+		try {
+
+			// make sure we have a mounted SDCard
+			String externalStorageState = Environment
+					.getExternalStorageState();
+			if (!Environment.MEDIA_MOUNTED.equals(externalStorageState)) {
+				// they don't have an SDCard, give them an error message and
+				// quit
+			  
+				android.util.Log.e(Log,
+						"Don't have an SDCard, give them an error message and quit ! ");
+				
+				if (context instanceof Activity) {
+					((Activity) context).finish();
+				}
+				
+
+			} else {
+				// there's an SDCard available, continue
+				// File root = Environment.getExternalStorageDirectory();
+
+				String directoryname = context.getString(R.string.app_name);
+				 String dirName = "/sdcard/" + directoryname + "";
+				File root =    new File(dirName);
+				boolean exists = root.exists();
+				if (!exists) {
+					root.mkdirs();
+				}
+
+			}
+
+		} catch (Exception e) {
+			android.util.Log.e(Log, "by creating folder " + e+"");
+			{
+
+				 
+
+				android.util.Log.e(Log, e.toString());
+
+			}
+		}
+
+	}
 	
 	
 }

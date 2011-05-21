@@ -1,26 +1,37 @@
 /**
- * 
- */
+ * Copyright (c) 2011: mnemr.com cobntributors. All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published 
+ * the Free Software Foundation, either version 3 of the License, 
+ * (at your option) any later version.
+ *
+ * program is distributed in the hope that it will be 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public 
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ **/
+
 package com.mnemr.ui;
 
- 
- 
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -31,85 +42,97 @@ import android.widget.Toast;
 import com.mnemr.R;
 import com.mnemr.provider.Mnem;
 import com.mnemr.utils.MnemrUtil;
- 
 
 /**
  * @author barzali.
- *
+ * 
  */
-public class MnemListActivity extends Activity implements OnTouchListener{
+public class MnemListActivity extends Activity implements OnTouchListener {
 
 	private ExpandableListAdapter adapter;
 	private ExpandableListView expandableListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-	// TODO Auto-generated method stub
-	super.onCreate(savedInstanceState);
-     setContentView(R.layout.actionbar_main_layout);
-     
-     setExpandableListView((ExpandableListView) findViewById(R.id.listView));
-	// search
-	Intent intent = getIntent();
-	if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-	String query = intent.getStringExtra(SearchManager.QUERY);
-	if (query == null) query = intent.getDataString(); // touch
-	Toast.makeText(this, "Search: "+query, Toast.LENGTH_LONG).show();
-	}
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.actionbar_main_layout);
 
-	adapter=new CursorTreeAdapter(getContentResolver().query(Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null), this) {
+		MnemrUtil.CreateAppFolder(MnemListActivity.this);
 
-	@Override
-	protected View newGroupView(Context context, Cursor cursor, boolean isExpanded, ViewGroup parent) {
-	// Layout parameters for the ExpandableListView
-	AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-	ViewGroup.LayoutParams.MATCH_PARENT, 64);
+		setExpandableListView((ExpandableListView) findViewById(R.id.listView));
+		// search
+		Intent intent = getIntent();
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			String query = intent.getStringExtra(SearchManager.QUERY);
+			if (query == null)
+				query = intent.getDataString(); // touch
+			Toast.makeText(this, "Search: " + query, Toast.LENGTH_LONG).show();
+		}
 
-	TextView textView = new TextView( context);
-	textView.setLayoutParams(lp);
-	// Center the text vertically
-	textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-	// Set the text starting position
-	textView.setPadding(36, 0, 0, 0);
-	return textView;
+		setAdapter(new CursorTreeAdapter(getContentResolver().query(
+				Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null), this) {
 
-	}
+			@Override
+			protected View newGroupView(Context context, Cursor cursor,
+					boolean isExpanded, ViewGroup parent) {
+				View view = createListViewItem(context);
+				return view;
 
-	@Override
-	protected void bindGroupView(View view, Context context, Cursor cursor, boolean isExpanded) {
-	Log.d(getClass().getSimpleName(), cursor.getString(1));
-	((TextView) view).setText(cursor.getString(1));
-	// scaleToFit((TextView) view);
-	}
+			}
 
-	@Override
-	protected Cursor getChildrenCursor(Cursor groupCursor) {
-	return getContentResolver()
-	.query(Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null);
-	//TODO machen!
-	}
+			@Override
+			protected void bindGroupView(View view, Context context,
+					Cursor cursor, boolean isExpanded) {
+				Log.d(getClass().getSimpleName(), cursor.getString(1));
+				// ((TextView) view).setText(cursor.getString(1));
 
-	@Override
-	protected View newChildView(Context context, Cursor cursor,
-	boolean isLastChild, ViewGroup parent) {
-	TextView v = new TextView(context);
-	v.setBackgroundColor(Color.BLACK);
-	v.setTextColor(Color.LTGRAY);
-	v.setGravity(Gravity.CENTER_HORIZONTAL
-	| Gravity.CENTER_VERTICAL);
-	return v;
-	}
+				if (view.getId() == R.id.listItemContainer) {
+					TextView textView = (TextView) view
+							.findViewById(R.id.mnemr_text_id);
+					String text = cursor.getString(1);
+					textView.setText(text);
+				}
+			}
 
-	@Override
-	protected void bindChildView(View view, Context context,
-	Cursor cursor, boolean isLastChild) {
-	((TextView) view).setText(cursor.getString(1));
-	//scaleToFit((TextView) view);
-	}
-	};
-	 getExpandableListView().setAdapter(adapter);
-	 
-	 ImageButton addbtn = (ImageButton) findViewById(R.id.addmemo_id);
+			@Override
+			protected Cursor getChildrenCursor(Cursor groupCursor) {
+				return getContentResolver().query(Mnem.CONTENT_URI,
+						Mnem.PROJECTION, null, null, null);
+
+			}
+
+			@Override
+			protected View newChildView(Context context, Cursor cursor,
+					boolean isLastChild, ViewGroup parent) {
+				View view = createListViewItem(context);
+				return view;
+			}
+
+			private View createListViewItem(Context context) {
+				LayoutInflater inflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				View textView = inflater.inflate(R.layout.listview_item, null);
+
+				return textView;
+			}
+
+			@Override
+			protected void bindChildView(View view, Context context,
+					Cursor cursor, boolean isLastChild) {
+
+				if (view.getId() == R.id.listItemContainer) {
+					TextView textView = (TextView) view
+							.findViewById(R.id.mnemr_text_id);
+					// textView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.icon));
+					String text = cursor.getString(1);
+					textView.setText(text);
+				}
+			}
+		});
+		getExpandableListView().setAdapter(getAdapter());
+
+		ImageButton addbtn = (ImageButton) findViewById(R.id.addmemo_id);
 
 		ImageButton mnmrListbtn = (ImageButton) findViewById(R.id.mnemrlist_id);
 
@@ -124,7 +147,8 @@ public class MnemListActivity extends Activity implements OnTouchListener{
 	}
 
 	/**
-	 * @param expandableListView the expandableListView to set
+	 * @param expandableListView
+	 *            the expandableListView to set
 	 */
 	public void setExpandableListView(ExpandableListView expandableListView) {
 		this.expandableListView = expandableListView;
@@ -136,55 +160,56 @@ public class MnemListActivity extends Activity implements OnTouchListener{
 	public ExpandableListView getExpandableListView() {
 		return expandableListView;
 	}
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 123, 0, "Delete All")
-        	.setIcon(android.R.drawable.ic_menu_delete);
-        menu.add(1, 124, 0, "Info")
-        .setIcon(android.R.drawable.ic_menu_info_details);
-        return super.onPrepareOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case 123:
-           	getContentResolver().delete(Mnem.CONTENT_URI, null, null);
-           	Toast.makeText(this, "Deleted.", Toast.LENGTH_LONG).show();
-           	
-           	// refresh the listview!
-           	if (getExpandableListView()!=null) {
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 123, 0, "Delete All").setIcon(
+				android.R.drawable.ic_menu_delete);
+		menu.add(1, 124, 0, "Info").setIcon(
+				android.R.drawable.ic_menu_info_details);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case 123:
+			getContentResolver().delete(Mnem.CONTENT_URI, null, null);
+			Toast.makeText(this, "Deleted.", Toast.LENGTH_LONG).show();
+
+			// refresh the listview!
+			if (getExpandableListView() != null) {
 				getExpandableListView().invalidate();
 			}
-            break;
-        default:
-        	
-        	 
-        	MnemrUtil.showInfoDialog(getString(R.string.info_text), MnemListActivity.this);
-        	
-        	
 			break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-	
+		default:
+
+			MnemrUtil.showInfoDialog(getString(R.string.info_text),
+					MnemListActivity.this);
+
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
-		
+
 		// search
-		//Intent intent = getIntent();
+		// Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-		String query = intent.getStringExtra(SearchManager.QUERY);
-		if (query == null) query = intent.getDataString(); // touch
-		Toast.makeText(this, "Search: "+query, Toast.LENGTH_LONG).show();
-		} 
-			
-			Toast.makeText(MnemListActivity.this, " new "+intent.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
-		 
-		
-		
+			String query = intent.getStringExtra(SearchManager.QUERY);
+			if (query == null)
+				query = intent.getDataString(); // touch
+			Toast.makeText(this, "Search: " + query, Toast.LENGTH_LONG).show();
+		}
+
+		Toast.makeText(MnemListActivity.this,
+				" new " + intent.getClass().getSimpleName(), Toast.LENGTH_SHORT)
+				.show();
+
 	}
 
 	public boolean onTouch(View v, MotionEvent event) {
@@ -192,29 +217,48 @@ public class MnemListActivity extends Activity implements OnTouchListener{
 			ImageButton imButton = (ImageButton) v;
 
 			if (imButton.getId() == R.id.addmemo_id) {
-				Toast.makeText(MnemListActivity.this, "ad mnemo !", Toast.LENGTH_SHORT).show();
-				
-				Intent intent = new Intent(Intent.ACTION_INSERT, Mnem.CONTENT_URI);
+				Toast.makeText(MnemListActivity.this, "ad mnemo !",
+						Toast.LENGTH_SHORT).show();
+
+				Intent intent = new Intent(Intent.ACTION_INSERT,
+						Mnem.CONTENT_URI);
 				startActivity(intent);
 			}
-			if (imButton.getId() == R.id.mnemrlist_id) { 
-				
-				Intent listIntent = new Intent(MnemListActivity.this,MnemListActivity.class);
-				startActivity(listIntent); 
-				
+			if (imButton.getId() == R.id.mnemrlist_id) {
+
+				Intent listIntent = new Intent(MnemListActivity.this,
+						MnemListActivity.class);
+				startActivity(listIntent);
+
 			}
 			if (imButton.getId() == R.id.mnemrcards_id) {
-				Intent listIntent = new Intent(MnemListActivity.this,FlashcardsActivity.class);
+				Intent listIntent = new Intent(MnemListActivity.this,
+						FlashcardsActivity.class);
 				startActivity(listIntent);
 			}
 			if (imButton.getId() == R.id.search) {
-				//Toast.makeText(MnemListActivity.this, " search !", Toast.LENGTH_SHORT).show();
+				// Toast.makeText(MnemListActivity.this, " search !",
+				// Toast.LENGTH_SHORT).show();
 				onSearchRequested();
 			}
 		}
 
-	 
 		return false;
 	}
-	
+
+	/**
+	 * @param adapter
+	 *            the adapter to set
+	 */
+	public void setAdapter(ExpandableListAdapter adapter) {
+		this.adapter = adapter;
 	}
+
+	/**
+	 * @return the adapter
+	 */
+	public ExpandableListAdapter getAdapter() {
+		return adapter;
+	}
+
+}
