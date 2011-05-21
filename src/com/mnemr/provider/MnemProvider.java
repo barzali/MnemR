@@ -15,7 +15,6 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
   *
   **/
-
 package com.mnemr.provider;
 
 import android.app.SearchManager;
@@ -83,10 +82,7 @@ public class MnemProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri arg0, String selection, String[] selectionArgs) {
-//		return db.getWritableDatabase().delete(Mnem.TABLE_NAME, selection, selectionArgs);
-		db.getWritableDatabase().execSQL("DROP TABLE "+Mnem.TABLE_NAME+";");
-		db.onCreate(db.getWritableDatabase());
-		return 0;
+		return db.getWritableDatabase().delete(Mnem.TABLE_NAME, selection, selectionArgs);
 	}
 
 	@Override

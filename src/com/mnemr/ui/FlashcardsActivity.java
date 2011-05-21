@@ -15,7 +15,6 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
   *
   **/
-
 package com.mnemr.ui;
 
 import com.mnemr.provider.Mnem;
@@ -28,11 +27,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorTreeAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FlashcardsActivity extends Activity {
 
@@ -103,7 +105,28 @@ public class FlashcardsActivity extends Activity {
 		// registerForContextMenu(mCardsView);
 		mCardsView.setOnCreateContextMenuListener(this);
 	}
-	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 123, 0, "Delete")
+        	.setIcon(android.R.drawable.ic_menu_delete);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case 123:
+        Log.d("id",""+	mAdapter.getCursor().getInt(0));
+          	getContentResolver().delete(Mnem.CONTENT_URI,Mnem._ID+"="+mAdapter.getCursor().getInt(0) , null);
+          	mAdapter.getCursor().requery();
+          	 mCardsView = new CardsView(this);  	
+          	 mCardsView.setAdapter(mAdapter);
+          	 setContentView(mCardsView);
+           	Toast.makeText(this, "cleared", Toast.LENGTH_LONG).show();
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 	
     private void scaleToFit(TextView view) {
         float factor = (getWindowManager().getDefaultDisplay().getWidth()-42) / view.getPaint().measureText(view.getText().toString());
