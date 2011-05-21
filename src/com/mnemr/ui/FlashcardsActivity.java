@@ -1,5 +1,6 @@
-/**
- * Copyright (c) 2011: mnemr.com cobntributors. All rights reserved.
+/*
+
+ * Copyright (c) 2011: mnemr.com contributors. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published 
@@ -19,11 +20,7 @@
 package com.mnemr.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -36,12 +33,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorTreeAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mnemr.provider.Mnem;
-import com.mnemr.utils.MnemrUtil;
 
 public class FlashcardsActivity extends Activity {
 
@@ -118,12 +113,6 @@ public class FlashcardsActivity extends Activity {
 		mCardsView.setOnCreateContextMenuListener(this);
 	}
 
-	private void scaleToFit(TextView view) {
-		float factor = (getWindowManager().getDefaultDisplay().getWidth() - 42)
-				/ view.getPaint().measureText(view.getText().toString());
-		view.setTextSize(view.getTextSize() * factor);
-	}
-
 	/**
 	 * @param mAdapter
 	 *            the mAdapter to set
@@ -143,56 +132,34 @@ public class FlashcardsActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 123, 0, "Delete")
 				.setIcon(android.R.drawable.ic_menu_delete);
-		menu.add(1, 124, 0, "Edit").setIcon(android.R.drawable.ic_menu_edit);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-
 		case 123:
-
+			Log.d("id", "" + mAdapter.getCursor().getInt(0));
 			getContentResolver().delete(Mnem.CONTENT_URI,
-					Mnem._ID + "=" + mAdapter.getCursor().getString(0), null);
-
-			Toast.makeText(this, "Deleted.", Toast.LENGTH_LONG).show();
-
+					Mnem._ID + "=" + mAdapter.getCursor().getInt(0), null);
+			mAdapter.getCursor().requery();
+			 
+			mCardsView = new CardsView(this);
+			
+			//mCardsView.setAdapter(mAdapter);
+			mCardsView.invalidate();
+			mCardsView.postInvalidate();
+			setContentView(mCardsView);
+			Toast.makeText(this, "cleared", Toast.LENGTH_LONG).show();
 			break;
-
-		case 124:
-
-			EditText textView = new EditText(FlashcardsActivity.this);
-			String ok_text = "Ok";
-			ContentValues values = new ContentValues();
-			  Log.d("id",""+ mAdapter.getCursor().getInt(0));
-	           getContentResolver().delete(Mnem.CONTENT_URI,Mnem._ID+"="+mAdapter.getCursor().getInt(0) , null);
-	           mAdapter.getCursor().requery();
-	           mCardsView = new CardsView(this);
-	           mCardsView.setAdapter(mAdapter);
-	           setContentView(mCardsView);
-	            Toast.makeText(this, "cleared", Toast.LENGTH_LONG).show();
-	            break;
-			/*final int text = getContentResolver().update(Mnem.CONTENT_URI,  ,
-					Mnem._ID + "=" + mAdapter.getCursor().getString(0), null);
-			AlertDialog infoDialog = new AlertDialog.Builder(
-					FlashcardsActivity.this)
-					.setIcon(android.R.drawable.ic_dialog_info)
-					.setView(textView).setTitle("Info").setMessage(text)
-					.setPositiveButton(ok_text, new OnClickListener() {
-
-						public void onClick(DialogInterface dialog, int which) {
-							MnemrUtil.showToast(text+" is updated", FlashcardsActivity.this);
-						}
-					}).create();
-
-			infoDialog.show();
- 
-			Toast.makeText(this, "Edit", Toast.LENGTH_LONG).show();
-*/
-			//break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void scaleToFit(TextView view) {
+		float factor = (getWindowManager().getDefaultDisplay().getWidth() - 42)
+				/ view.getPaint().measureText(view.getText().toString());
+		view.setTextSize(view.getTextSize() * factor);
 	}
 
 }
