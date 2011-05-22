@@ -97,15 +97,15 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 			@Override
 			protected void bindGroupView(View view, Context context,
 					Cursor cursor, boolean isExpanded) {
-				Log.d(getClass().getSimpleName(), cursor.getString(1));
+				 
 				// ((TextView) view).setText(cursor.getString(1));
 
 				if (view.getId() == R.id.listItemContainer) {
 					
 					TextView textView = (TextView) view
 							.findViewById(R.id.mnemr_text_id);
-					
-					textView.setOnTouchListener(MnemListActivity.this);
+					textView.setText(cursor.getString(1));
+				//	textView.setOnTouchListener(MnemListActivity.this);
 					
 					/**
 					 *  TextView mnemrFoto = (TextView) view.findViewById(R.id.mnemrphoto_id);
@@ -149,12 +149,7 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 			protected void bindChildView(View view, Context context,
 					Cursor cursor, boolean isLastChild) {
 
-				if (view.getId() == R.id.listItemContainer) {
- 
-					
-					
-					
-					
+				if (view.getId() == R.id.listItemContainer) { 
 					
 					
 					
@@ -162,8 +157,8 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 						
 						TextView textView = (TextView) view
 								.findViewById(R.id.mnemr_text_id);
-						
-						textView.setOnTouchListener(MnemListActivity.this);
+						textView.setText(cursor.getString(1));
+						//.setOnTouchListener(MnemListActivity.this);
 						
 						/**
 						 *  TextView mnemrFoto = (TextView) view.findViewById(R.id.mnemrphoto_id);
@@ -314,8 +309,9 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 		      TextView view = (TextView) v;
 		    
 			  if (view.getId() == R.id.mnemr_text_id) {
-				Toast.makeText(MnemListActivity.this, " search !",
-						Toast.LENGTH_SHORT).show();
+				//Toast.makeText(MnemListActivity.this, " search !",
+					//	Toast.LENGTH_SHORT).show();
+				  Log.d(getClass().getSimpleName(), "textvie .. ;)");
 
 			}
 			  
