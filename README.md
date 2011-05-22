@@ -10,7 +10,7 @@ MnemR (pron. '_Nehmer_') is a mnemonic content learning tool for the android pla
 
 GET STARTED
 -----------
-prerequisites: [git](http://git-scm.com), [sdk](http://developer.android.com/sdk), [ant](http://ant.apache.org)
+pre-requisites: [git](http://git-scm.com), [sdk](http://developer.android.com/sdk), [ant](http://ant.apache.org)
 
 	$ git clone git://github.com/barzali/MnemR.git
 	$ android update project --path .
