@@ -3,4 +3,5 @@ gen
 build.xml
 .project
 .classpath
+proguard.cfg
 local.properties

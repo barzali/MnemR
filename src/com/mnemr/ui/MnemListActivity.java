@@ -1,9 +1,9 @@
 /**
  *  __  __                      ____  
-|  \/  |_ __   ___ _ __ ___ |  _ \ 
-| |\/| | '_ \ / _ \ '_ ` _ \| |_) |
-| |  | | | | |  __/ | | | | |  _ < 
-|_|  |_|_| |_|\___|_| |_| |_|_| \_\
+*  |  \/  |_ __   ___ _ __ ___ |  _ \ 
+*  | |\/| | '_ \ / _ \ '_ ` _ \| |_) |
+*  | |  | | | | |  __/ | | | | |  _ < 
+*  |_|  |_|_| |_|\___|_| |_| |_|_| \_\
                                    
  * Copyright (c) 2011: mnemr.com contributors. All rights reserved.
  *
@@ -29,6 +29,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -123,7 +124,7 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 
 			@Override
 			protected Cursor getChildrenCursor(Cursor groupCursor) {
-				return getContentResolver().query(Mnem.CONTENT_URI,
+				return getContentResolver().query(Uri.withAppendedPath(Mnem.CONTENT_URI, "/"+getCursor().getInt(0)+"/related"),
 						Mnem.PROJECTION, null, null, null);
 
 			}

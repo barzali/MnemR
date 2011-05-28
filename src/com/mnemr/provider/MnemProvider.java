@@ -44,6 +44,45 @@ public class MnemProvider extends ContentProvider {
 	private static final int MNEMON = 4;
 	private DbHelper db;
 	
+	
+	class DbHelper extends SQLiteOpenHelper {
+
+		private static final int VERSION = 1;
+
+		public DbHelper(Context context) {
+			super(context, "mnemr.db", null, VERSION);
+		}
+
+		@Override
+		public void onCreate(SQLiteDatabase db) {
+			db.execSQL("CREATE TABLE "+Mnem.TABLE_NAME+" (" +
+							Mnem._ID+" INTEGER PRIMARY KEY AUTOINCREMENT," +
+							Mnem.SOUND+" TEXT," +
+							Mnem.IMAGE+" TEXT," +
+							Mnem.TEXT+" TEXT," +
+							Mnem.RELATED_ID+" INTEGER" +
+						");");
+			
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (1, 'sound', 'image', 'MnemR', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (2, 'sound', 'image', 'Memer', 1);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (3, 'sound', 'image', 'content tool', 1);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (4, 'sound', 'image', 'griech: mnem', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (5, 'sound', 'image', 'lat: mem', 4);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (6, 'sound', 'image', 'Hallo', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (7, 'sound', 'image', 'Nihao', 6);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (8, 'sound', 'image', 'A9', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (9, 'sound', 'image', 'Wien->München', 8);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (10, 'sound', 'image', 'erbaut 1953', 8);");
+		}
+
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			// TODO Auto-generated method stub
+		}
+		
+	}
+	
+	
 	@Override
 	public boolean onCreate() {
 		db = new DbHelper(getContext());
@@ -62,14 +101,14 @@ public class MnemProvider extends ContentProvider {
 		Cursor cursor = null;
 		switch (uriMatcher.match(uri)) {
 		case MNEMONS:
-			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, Mnem.RELATED_ID+" ISNULL", selectionArgs, null, null, sortOrder);
 			break;
 		case MNEMON:
 			selection = Mnem._ID+"="+uri.getLastPathSegment();
 			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 			break;
 		case RELATED:
-			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, Mnem.RELATED_ID+"="+uri.getPathSegments().get(1), selectionArgs, null, null, sortOrder);
 			break;
 		case SEARCH:
 			if (uri.getPathSegments().size() > 1)
@@ -103,36 +142,7 @@ public class MnemProvider extends ContentProvider {
 	}
 	
 	
-	
-	class DbHelper extends SQLiteOpenHelper {
 
-		private static final int VERSION = 1;
-
-		public DbHelper(Context context) {
-			super(context, "mnemr.db", null, VERSION);
-		}
-
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			db.execSQL("CREATE TABLE "+Mnem.TABLE_NAME+" (" +
-							Mnem._ID+" INTEGER PRIMARY KEY AUTOINCREMENT," +
-							Mnem.SOUND+" TEXT," +
-							Mnem.IMAGE+" TEXT," +
-							Mnem.TEXT+" TEXT" +
-						");");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (1, 'sound', 'image', 'MnemR');");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (2, 'sound', 'image', 'Memer');");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (3, 'sound', 'image', 'mnem');");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (4, 'sound', 'image', 'content tool');");
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
-		}
-		
-	}
-	
 	
 	
 	static {
