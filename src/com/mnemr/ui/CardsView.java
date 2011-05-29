@@ -108,27 +108,33 @@ public class CardsView extends FrameLayout {
            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
 //               Toast.makeText(getContext(), "onFling", 1000).show();
-               Log.d(TAG, "onFling");
+               Log.d(TAG, "onFling NR: "+(mChildPosition+1));
                if (Math.abs(velocityX) > Math.abs(velocityY)) {
                    if (mState == 0) {
                        
                        if (velocityX < 1000) {
-                           Log.d(TAG, "LEFT");
+//                           Log.d(TAG, "LEFT");
                            if (mChildPosition < mAdapter.getChildrenCount(mGroupPosition)-1) {
                                mChildPosition++;
                                mOtherView = (TextView) mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
-                               animateRotation(0, 1);
+                           } else {
+                        	   mChildPosition = -1;
+                        	   mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
                            }
+                           animateRotation(0, 1);
                        } else if (velocityX > 1000) {
-                           Log.d(TAG, "RIGHT");
+//                           Log.d(TAG, "RIGHT");
                            if (mChildPosition > -1) {
-                               mChildPosition--;
-                               if (mChildPosition > -1)
-                                   mOtherView = (TextView) mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
-                               else
-                                   mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
-                               animateRotation(0, -1);
+                        	   mChildPosition--;
+                        	   if (mChildPosition > -1) 
+                        		   mOtherView = (TextView) mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
+                        	   else
+                        		   mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+                           } else {
+                        	   mChildPosition = mAdapter.getChildrenCount(mGroupPosition)-1;
+                        	   mOtherView = (TextView) mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
                            }
+                           animateRotation(0, -1);
                        }
                    } else {
                        Log.d(TAG, "continue SCROLL");
@@ -250,7 +256,7 @@ public class CardsView extends FrameLayout {
             mCurrentView.startAnimation(rotation);
             
                 if (Math.abs(to) > 0.5) {
-                    Log.d(TAG, "ANIMATE SWITCH");
+//                    Log.d(TAG, "ANIMATE SWITCH");
                     TextView tmp = mCurrentView;
                     mCurrentView = mOtherView;
                     mOtherView = tmp;
