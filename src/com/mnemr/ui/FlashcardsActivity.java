@@ -53,7 +53,7 @@ import com.mnemr.utils.MnemrUtil;
 
 public class FlashcardsActivity extends Activity {
 
-	protected static final String TAG = "FlasCards";
+	protected static final String TAG = "FlashCards";
 	private CardsView mCardsView;
 	private CursorTreeAdapter mAdapter;
 
@@ -98,19 +98,17 @@ public class FlashcardsActivity extends Activity {
 
 			@Override
 			protected void bindGroupView(View view, Context context, Cursor cursor, boolean isExpanded) {
-				Log.d(TAG, cursor.getString(1));
 				TextView text = (TextView) ((FrameLayout)view).getChildAt(0);
 				text.setText(cursor.getString(1));
 				scaleToFit((TextView) text);
 				TextView nmb = (TextView) ((FrameLayout)view).getChildAt(1);
-				nmb.setText("1/"+(getChildrenCursor(cursor).getCount()+1));
+				nmb.setText("1/"+(getChildrenCount(cursor.getPosition())+1));
 			}
 
 			@Override
 			protected Cursor getChildrenCursor(Cursor groupCursor) {
-				return getContentResolver().query(
-						Uri.withAppendedPath(Mnem.CONTENT_URI, "/" + groupCursor.getInt(0) + "/related"),
-						Mnem.PROJECTION, null, null, null);
+				return getContentResolver().query(Uri.withAppendedPath(Mnem.CONTENT_URI, "/" + 
+						groupCursor.getInt(0) + "/related"), Mnem.PROJECTION, null, null, null);
 
 			}
 
@@ -138,6 +136,28 @@ public class FlashcardsActivity extends Activity {
 		setContentView(mCardsView);
 		mCardsView.setAdapter(mAdapter);
 		super.onRestart();
+	}
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_DPAD_LEFT:
+			mCardsView.flipCardLeft();
+			break;
+		case KeyEvent.KEYCODE_DPAD_RIGHT:
+			mCardsView.flipCardRight();
+			break;
+		case KeyEvent.KEYCODE_DPAD_DOWN:
+			mCardsView.prevCard();
+			break;
+		case KeyEvent.KEYCODE_DPAD_UP:
+			mCardsView.nextCard();
+			break;
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 	
 	/**

@@ -69,7 +69,7 @@ public class CardsView extends FrameLayout {
 
             @Override
             public boolean onDown(MotionEvent e) {
-                Log.d(TAG, "onDown");
+//                Log.d(TAG, "onDown");
                 return super.onDown(e);
             }
 
@@ -107,94 +107,43 @@ public class CardsView extends FrameLayout {
         @Override
            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
-//               Toast.makeText(getContext(), "onFling", 1000).show();
-               Log.d(TAG, "onFling NR: "+(mChildPosition+1));
                if (Math.abs(velocityX) > Math.abs(velocityY)) {
                    if (mState == 0) {
-                       
-                       if (velocityX < 1000) {
-//                           Log.d(TAG, "LEFT");
-                           if (mChildPosition < mAdapter.getChildrenCount(mGroupPosition)-1) {
-                               mChildPosition++;
-                               mOtherView = mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
-                           } else {
-                        	   mChildPosition = -1;
-                        	   mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
-                           }
-                           animateRotation(0, 1);
+
+                	   if (velocityX < 1000) {
+//                           Log.d(TAG, "fling LEFT");
+                    	   flipCardRight();
                        } else if (velocityX > 1000) {
-//                           Log.d(TAG, "RIGHT");
-                           if (mChildPosition > -1) {
-                        	   mChildPosition--;
-                        	   if (mChildPosition > -1) 
-                        		   mOtherView = mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
-                        	   else
-                        		   mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
-                           } else {
-                        	   mChildPosition = mAdapter.getChildrenCount(mGroupPosition)-1;
-                        	   mOtherView = mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
-                           }
-                           animateRotation(0, -1);
+//                           Log.d(TAG, "fling RIGHT");
+                    	   flipCardLeft();
                        }
                    } else {
-                       Log.d(TAG, "continue SCROLL");
-                       if (mState > 0)
-                           animateRotation(mState, 1);
-                       else
-                           animateRotation(mState, -1);
+//                       Log.d(TAG, "continue SCROLL");
+//                       if (mState > 0)
+//                           animateRotation(mState, 1);
+//                       else
+//                           animateRotation(mState, -1);
                    }
                } else {
                    mChildPosition = -1;
                    
                    if (velocityY > 1000) {
-                       Log.d(TAG, "UP");
-                       if (mGroupPosition < mAdapter.getGroupCount()-1)
-                           mGroupPosition++;
-                       else 
-                           mGroupPosition = 0;
-                       
-                       mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
-                       animateCurl(true);
+//                       Log.d(TAG, "fling UP");
+                       nextCard();
 
                    } else if (velocityY < 1000) {
 
-                       Log.d(TAG, "DOWN");
-                       if (mGroupPosition > 0)
-                           mGroupPosition--;
-                       else 
-                           mGroupPosition = mAdapter.getGroupCount()-1;
-                       
-                       refresh();
+//                       Log.d(TAG, "fling DOWN");
+                       prevCard();
                    }
                }
                // Toast.makeText(BrainR.this,
                // "Aha: "+velocityX+" - "+velocityY, 7000).show();
                return super.onFling(e1, e2, velocityX, velocityY);
            }
-
-		 
        });
-        
     }
-    public void refresh() {
-    	if (mAdapter.getGroupCount()==0) {
-			Log.e(getClass().getSimpleName(), "count == 0");
-			MnemrUtil.showToast("there are no mnemrs !  ", getContext());
-			if (getContext() instanceof Activity) {
-				Activity activity = (Activity) getContext();
-				activity.finish();
-				
-			}
-			
-			 
-			
-			
-		}else {
-			mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
-			   animateCurl(false);
-		}
-		 
-	}
+
     
     public void setAdapter(CursorTreeAdapter adapter) {
         mAdapter = adapter;
@@ -207,36 +156,70 @@ public class CardsView extends FrameLayout {
         mOtherView.setVisibility(View.INVISIBLE);
     }
     
-    
-    
-    @Override
-    protected ContextMenuInfo getContextMenuInfo() {
-        Log.d(TAG, "CONTEXT MENU INFO");
-        // TODO Auto-generated method stub
-        return super.getContextMenuInfo();
-    }
-    
-    
-
-    @Override
-    public boolean showContextMenu() {
-        // TODO Auto-generated method stub
-        Log.d(TAG, "SHOW CONTEXT MENU");
-        return true;
-    }
-
-    @Override
-    public boolean showContextMenuForChild(View originalView) {
-        Log.d(TAG, "SHOW CONTEXT MENU FOR CHILD");
-        // TODO Auto-generated method stub
-        return true;
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) { 
         return detector.onTouchEvent(event);
     }
     
+    
+    public void flipCardLeft() {
+    	mChildPosition--;
+    	if (mChildPosition == -2)
+    		mChildPosition = mAdapter.getChildrenCount(mGroupPosition)-1;
+    	if (mChildPosition > -1)
+    		mOtherView = mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
+    	else
+    		mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+    	animateRotation(0, -1);
+    }
+    
+    public void flipCardRight() {
+    	mChildPosition++;
+    	if (mChildPosition == mAdapter.getChildrenCount(mGroupPosition)) {
+    		mChildPosition = -1;
+    		mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+    	} else {
+    		mOtherView = mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
+    	}
+    	animateRotation(0, 1);
+    }
+    
+	public void nextCard() {
+		if (mGroupPosition < mAdapter.getGroupCount()-1)
+		       mGroupPosition++;
+		   else 
+		       mGroupPosition = 0;
+		   
+		   mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+		   animateCurl(true);
+	}
+	
+	public void prevCard() {
+		if (mGroupPosition > 0)
+			mGroupPosition--;
+		else 
+			mGroupPosition = mAdapter.getGroupCount()-1;
+		
+		refresh();
+	}
+    
+    
+    public void refresh() {
+    	if (mAdapter.getGroupCount()==0) {
+			Log.e(getClass().getSimpleName(), "count == 0");
+			MnemrUtil.showToast("there are no mnemrs !  ", getContext());
+			if (getContext() instanceof Activity) {
+				Activity activity = (Activity) getContext();
+				activity.finish();
+				
+			}	
+		}else {
+			mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+			   animateCurl(false);
+		}
+		 
+	}
 
     public void animateRotation(final float from, final float to) {
         // Find the center of the container
