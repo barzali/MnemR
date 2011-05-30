@@ -222,6 +222,8 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 				android.R.drawable.ic_menu_delete);
 		menu.add(1, 124, 0, "Info").setIcon(
 				android.R.drawable.ic_menu_info_details);
+		menu.add(1, 124, 0, "Settings").setIcon(
+				android.R.drawable.ic_menu_preferences);
 		return super.onPrepareOptionsMenu(menu);
 	}
 

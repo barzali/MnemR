@@ -89,7 +89,6 @@ public class FlashcardsActivity extends Activity {
 				v.setTextColor(Color.GREEN);
 				v.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 				v.setTextSize(23);
-				v.setText("hui");
 				LayoutParams p = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				p.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
 				p.bottomMargin = 11;
