@@ -92,6 +92,7 @@ public class MnemProvider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		long id = db.getWritableDatabase().insert(Mnem.TABLE_NAME, null, values);
+		getContext().getContentResolver().notifyChange(Mnem.CONTENT_URI, null);
 		return ContentUris.withAppendedId(Mnem.CONTENT_URI, id);
 	}
 	
@@ -122,6 +123,7 @@ public class MnemProvider extends ContentProvider {
 		default:
 			break;
 		}
+		cursor.setNotificationUri(getContext().getContentResolver(), Mnem.CONTENT_URI);
 		return cursor;
 	}
 	
