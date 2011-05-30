@@ -141,21 +141,26 @@ public class FlashcardsActivity extends Activity {
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		Log.d("Key", ""+keyCode);
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_DPAD_LEFT:
 			mCardsView.flipCardLeft();
-			break;
+			return true;
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
 			mCardsView.flipCardRight();
-			break;
+			return true;
 		case KeyEvent.KEYCODE_DPAD_DOWN:
 			mCardsView.prevCard();
-			break;
+			return true;
 		case KeyEvent.KEYCODE_DPAD_UP:
 			mCardsView.nextCard();
-			break;
-		default:
-			break;
+			return true;
+		case KeyEvent.KEYCODE_VOLUME_DOWN:
+			mCardsView.prevCard();
+			return true;
+		case KeyEvent.KEYCODE_VOLUME_UP:
+			mCardsView.nextCard();
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
