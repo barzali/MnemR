@@ -44,8 +44,8 @@ public class CardsView extends FrameLayout {
     private static final String TAG = "CardsView";
     private static final long SPEED = 170;
     protected static final int SCROLLING = 1;
-    private TextView mCurrentView;
-    private TextView mOtherView;
+    private View mCurrentView;
+    private View mOtherView;
     private ExpandableListAdapter mAdapter;
     private GestureDetector detector;
     public int mGroupPosition = 0;
@@ -63,7 +63,7 @@ public class CardsView extends FrameLayout {
            public boolean onDoubleTap(MotionEvent e) {
                 Log.d(TAG, "onDoubletap");
                 
-                mCurrentView.setTextColor(Color.RED); 
+//                mCurrentView.setTextColor(Color.RED); 
                return super.onDoubleTap(e);
            }
 
@@ -116,10 +116,10 @@ public class CardsView extends FrameLayout {
 //                           Log.d(TAG, "LEFT");
                            if (mChildPosition < mAdapter.getChildrenCount(mGroupPosition)-1) {
                                mChildPosition++;
-                               mOtherView = (TextView) mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
+                               mOtherView = mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
                            } else {
                         	   mChildPosition = -1;
-                        	   mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+                        	   mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
                            }
                            animateRotation(0, 1);
                        } else if (velocityX > 1000) {
@@ -127,12 +127,12 @@ public class CardsView extends FrameLayout {
                            if (mChildPosition > -1) {
                         	   mChildPosition--;
                         	   if (mChildPosition > -1) 
-                        		   mOtherView = (TextView) mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
+                        		   mOtherView = mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
                         	   else
-                        		   mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+                        		   mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
                            } else {
                         	   mChildPosition = mAdapter.getChildrenCount(mGroupPosition)-1;
-                        	   mOtherView = (TextView) mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
+                        	   mOtherView = mAdapter.getChildView(mGroupPosition, mChildPosition, false, mOtherView, CardsView.this);
                            }
                            animateRotation(0, -1);
                        }
@@ -153,7 +153,7 @@ public class CardsView extends FrameLayout {
                        else 
                            mGroupPosition = 0;
                        
-                       mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+                       mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
                        animateCurl(true);
 
                    } else if (velocityY < 1000) {
@@ -190,7 +190,7 @@ public class CardsView extends FrameLayout {
 			
 			
 		}else {
-			mOtherView = (TextView) mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+			mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
 			   animateCurl(false);
 		}
 		 
@@ -200,8 +200,8 @@ public class CardsView extends FrameLayout {
         mAdapter = adapter;
         if (adapter.getGroupCount() == 0)
         	return;
-        mCurrentView = (TextView) adapter.getGroupView(mGroupPosition, false, mCurrentView, this);
-        mOtherView = (TextView) adapter.getGroupView(mGroupPosition, false, mOtherView, this);
+        mCurrentView = adapter.getGroupView(mGroupPosition, false, mCurrentView, this);
+        mOtherView = adapter.getGroupView(mGroupPosition, false, mOtherView, this);
         addView(mCurrentView);
         addView(mOtherView);
         mOtherView.setVisibility(View.INVISIBLE);
@@ -257,7 +257,7 @@ public class CardsView extends FrameLayout {
             
                 if (Math.abs(to) > 0.5) {
 //                    Log.d(TAG, "ANIMATE SWITCH");
-                    TextView tmp = mCurrentView;
+                    View tmp = mCurrentView;
                     mCurrentView = mOtherView;
                     mOtherView = tmp;
                     rotation.setAnimationListener(new AnimationListener() {
@@ -335,7 +335,7 @@ public class CardsView extends FrameLayout {
             public void onAnimationEnd(Animation animation) {
                 mCurrentView.setVisibility(View.GONE);
                 
-                TextView tmp = mCurrentView;
+                View tmp = mCurrentView;
                 mCurrentView = mOtherView;
                 mOtherView = tmp;
             }

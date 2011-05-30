@@ -36,12 +36,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorTreeAdapter;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,49 +77,54 @@ public class FlashcardsActivity extends Activity {
 			@Override
 			protected View newGroupView(Context context, Cursor cursor,
 					boolean isExpanded, ViewGroup parent) {
+				FrameLayout l = new FrameLayout(context);
 				TextView v = new TextView(context);
 				v.setBackgroundColor(Color.BLACK);
 				v.setTextColor(Color.GRAY);
-				v.setGravity(Gravity.CENTER_HORIZONTAL
-						| Gravity.CENTER_VERTICAL);
+				v.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 				v.setText("hui");
-				return v;
+				l.addView(v, new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+				v = new TextView(context);
+				v.setBackgroundColor(Color.BLACK);
+				v.setTextColor(Color.GREEN);
+				v.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+				v.setTextSize(23);
+				v.setText("hui");
+				LayoutParams p = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				p.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+				p.bottomMargin = 11;
+				l.addView(v, p);
+				return l;
 			}
 
 			@Override
-			protected void bindGroupView(View view, Context context,
-					Cursor cursor, boolean isExpanded) {
+			protected void bindGroupView(View view, Context context, Cursor cursor, boolean isExpanded) {
 				Log.d(TAG, cursor.getString(1));
-				((TextView) view).setText(cursor.getString(1));
-				scaleToFit((TextView) view);
+				TextView text = (TextView) ((FrameLayout)view).getChildAt(0);
+				text.setText(cursor.getString(1));
+				scaleToFit((TextView) text);
+				TextView nmb = (TextView) ((FrameLayout)view).getChildAt(1);
+				nmb.setText("1/"+(getChildrenCursor(cursor).getCount()+1));
 			}
 
 			@Override
 			protected Cursor getChildrenCursor(Cursor groupCursor) {
-
 				return getContentResolver().query(
-						Uri.withAppendedPath(Mnem.CONTENT_URI, "/"
-								+ groupCursor.getInt(0) + "/related"),
+						Uri.withAppendedPath(Mnem.CONTENT_URI, "/" + groupCursor.getInt(0) + "/related"),
 						Mnem.PROJECTION, null, null, null);
 
 			}
 
 			@Override
-			protected View newChildView(Context context, Cursor cursor,
-					boolean isLastChild, ViewGroup parent) {
-				TextView v = new TextView(context);
-				v.setBackgroundColor(Color.BLACK);
-				v.setTextColor(Color.LTGRAY);
-				v.setGravity(Gravity.CENTER_HORIZONTAL
-						| Gravity.CENTER_VERTICAL);
-				return v;
+			protected View newChildView(Context context, Cursor cursor, boolean isLastChild, ViewGroup parent) {
+				return newGroupView(context, cursor, false, parent);
 			}
 
 			@Override
-			protected void bindChildView(View view, Context context,
-					Cursor cursor, boolean isLastChild) {
-				((TextView) view).setText(cursor.getString(1));
-				scaleToFit((TextView) view);
+			protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
+				bindGroupView(view, context, cursor, false);
+				TextView nmb = (TextView) ((FrameLayout)view).getChildAt(1);
+				nmb.setText((cursor.getPosition()+2)+"/"+(cursor.getCount()+1));
 			}
 		});
 		mCardsView.setAdapter(getCuAdapter());
@@ -199,6 +207,9 @@ public class FlashcardsActivity extends Activity {
 	}
 
 	private void scaleToFit(TextView view) {
+		if (view.getText().toString().length() < 5) {
+			view.setText("  "+view.getText()+"  ");
+		}
 		float factor = (getWindowManager().getDefaultDisplay().getWidth() - 42)
 				/ view.getPaint().measureText(view.getText().toString());
 		view.setTextSize(view.getTextSize() * factor);
