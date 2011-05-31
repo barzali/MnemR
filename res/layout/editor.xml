@@ -30,4 +30,13 @@
     android:layout_above="@id/sound"
     android:textSize="105dip"
     />
+    <TextView
+    android:id="@+id/nmb"
+    android:textColor="@color/green"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@id/text"
+    android:textSize="42dip"
+    />
 </RelativeLayout>

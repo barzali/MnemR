@@ -91,6 +91,8 @@ public class MnemProvider extends ContentProvider {
 	
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
+		if (uriMatcher.match(uri) == RELATED)
+			values.put(Mnem.RELATED_ID, uri.getPathSegments().get(1));
 		long id = db.getWritableDatabase().insert(Mnem.TABLE_NAME, null, values);
 		getContext().getContentResolver().notifyChange(Mnem.CONTENT_URI, null);
 		return ContentUris.withAppendedId(Mnem.CONTENT_URI, id);
@@ -129,6 +131,8 @@ public class MnemProvider extends ContentProvider {
 	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+		if (uriMatcher.match(uri) == RELATED)
+			values.put(Mnem.RELATED_ID, uri.getPathSegments().get(1));
 		selection = Mnem._ID+"="+uri.getLastPathSegment();
 		return db.getWritableDatabase().update(Mnem.TABLE_NAME, values, selection, selectionArgs);
 	}

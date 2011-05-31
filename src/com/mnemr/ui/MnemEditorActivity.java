@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -35,22 +36,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MnemEditorActivity extends Activity {
 
 	protected static final String TAG = "Editor";
+	private static int related = 0;
 	private EditText text;
+	private TextView nmb;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
-	    
 	    setContentView(R.layout.editor);
+
 	    text = (EditText) findViewById(R.id.text);
-	    
 	    text.setOnKeyListener(new OnKeyListener() {
 			
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -67,6 +70,7 @@ public class MnemEditorActivity extends Activity {
 			
 		});
 
+
 	    if (getIntent().getAction().equals(Intent.ACTION_EDIT)) {
 	    	Cursor cursor = getContentResolver().query(getIntent().getData(), Mnem.PROJECTION, null, null, null);
 	    	if (cursor.getCount() > 0) {
@@ -81,21 +85,58 @@ public class MnemEditorActivity extends Activity {
 			public void onClick(View v) {
 				ContentValues values = new ContentValues();
 				values.put(Mnem.TEXT, text.getText().toString());
-				((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(30);
+				((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(42);
 				
 				if (getIntent().getAction().equals(Intent.ACTION_EDIT)) {
 					getContentResolver().update(getIntent().getData(), values, null, null);
 					Toast.makeText(MnemEditorActivity.this, "updated", Toast.LENGTH_SHORT).show();
 					finish();
 				} else {
-					getContentResolver().insert(Mnem.CONTENT_URI, values);
+					if (getIntent().getData().getLastPathSegment().equals("mnemons"))
+						getIntent().setData(getContentResolver().insert(getIntent().getData(), values));
+					else
+						getContentResolver().insert(getIntent().getData(), values);
 					Toast.makeText(MnemEditorActivity.this, "saved", Toast.LENGTH_SHORT).show();
-					text.setText("");
+//					text.setText("");
+					if (getIntent().getData().getLastPathSegment().equals("related"))
+						startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData())); 
+					else
+						startActivity(new Intent(Intent.ACTION_INSERT, Uri.withAppendedPath(getIntent().getData(), "related"))); 
 				}
 			}
 		});
 	    
+	    related++;
+
+	    
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
 	}
 
-
+	@Override
+	protected void onResume() {
+		int count; 
+		if (getIntent().getData().getLastPathSegment().equals("related")) {
+			count = getContentResolver().query(getIntent().getData(), new String[]{}, null, null, null).getCount()+2;
+		} else if (getIntent().getData().getLastPathSegment().equals("mnemons")) {
+			related = 1;
+			count = 1;
+		} else {
+			getIntent().setData(Uri.withAppendedPath(getIntent().getData(), "/related"));
+			count = getContentResolver().query(getIntent().getData(), new String[]{}, null, null, null).getCount()+2;
+		}
+		nmb = (TextView) findViewById(R.id.nmb);
+		nmb.setText(related +"/"+count);
+		super.onResume();
+	}
+	
+	@Override
+	public void finish() {
+		related--;
+		super.finish();
+	}
+	
 }
