@@ -233,9 +233,14 @@ public class FlashcardsActivity extends Activity {
 		if (view.getText().toString().length() < 5) {
 			view.setText("  "+view.getText()+"  ");
 		}
-		float factor = (getWindowManager().getDefaultDisplay().getWidth() - 42)
-				/ view.getPaint().measureText(view.getText().toString());
-		view.setTextSize(view.getTextSize() * factor);
+		int textSize = 500;
+		String[] lines = view.getText().toString().split("\\n");
+		for (int i = 0; i < lines.length; i++) {
+			textSize = (int) Math.min(textSize, (view.getTextSize() *
+					(getWindowManager().getDefaultDisplay().getWidth()-42) / 
+					view.getPaint().measureText(lines[i])));
+		}
+		view.setTextSize(textSize);
 	}
 
 }

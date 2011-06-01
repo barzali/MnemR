@@ -62,9 +62,13 @@ public class MnemEditorActivity extends Activity {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
 					// scale text to fit screen
-					float textSize = text.getTextSize() * 
-						(getWindowManager().getDefaultDisplay().getWidth() - 42 ) / 
-						text.getPaint().measureText(text.getText().toString()+"iii");
+					int textSize = 500;
+					String[] lines = text.getText().toString().split("\\n");
+					for (int i = 0; i < lines.length; i++) {
+						textSize = (int) Math.min(textSize, (text.getTextSize() * 
+								(getWindowManager().getDefaultDisplay().getWidth()-42 ) / 
+								text.getPaint().measureText(lines[i]+"mi")));
+					}
 					Log.d(TAG, "textSize: "+textSize);
 					text.setTextSize(Math.min(105, textSize));
 				}
