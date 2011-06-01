@@ -173,15 +173,6 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 						textView.setText(text);
 						 */
 					}
-					
-					
-					
-					
-					
-					
-					
-					
-					
 				}
 			}
 		});
@@ -189,14 +180,11 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 
 		ImageButton addbtn = (ImageButton) findViewById(R.id.addmemo_id);
 
-		ImageButton mnmrListbtn = (ImageButton) findViewById(R.id.mnemrlist_id);
-
-		ImageButton cardsbtn = (ImageButton) findViewById(R.id.mnemrcards_id);
+		ImageButton flashbtn = (ImageButton) findViewById(R.id.flash);
 		ImageButton searchbtn = (ImageButton) findViewById(R.id.search);
 
 		addbtn.setOnTouchListener(this);
-		mnmrListbtn.setOnTouchListener(this);
-		cardsbtn.setOnTouchListener(this);
+		flashbtn.setOnTouchListener(this);
 		searchbtn.setOnTouchListener(this);
 
 	}
@@ -269,67 +257,19 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 		
 		if (MotionEvent.ACTION_UP == event.getAction()) {
 			
-		 
-		
-		
-		if (v instanceof ImageButton) {
-			
-			ImageButton imButton = (ImageButton) v;
+			switch (v.getId()) {
 
-			if (imButton.getId() == R.id.addmemo_id) {
-				Toast.makeText(MnemListActivity.this, "ad mnemo !",
-						Toast.LENGTH_SHORT).show();
-
-				Intent intent = new Intent(Intent.ACTION_INSERT,
-						Mnem.CONTENT_URI);
-				startActivity(intent);
-			}
-			if (imButton.getId() == R.id.mnemrlist_id) {
-
-				Intent listIntent = new Intent(MnemListActivity.this,
-						MnemListActivity.class);
-				startActivity(listIntent);
-
-			}
-			if (imButton.getId() == R.id.mnemrcards_id) {
-				Intent listIntent = new Intent(MnemListActivity.this,
-						FlashcardsActivity.class);
-				startActivity(listIntent);
-			}
-			if (imButton.getId() == R.id.search) {
-				// Toast.makeText(MnemListActivity.this, " search !",
-				// Toast.LENGTH_SHORT).show();
+			case R.id.addmemo_id:
+				startActivity(new Intent(Intent.ACTION_INSERT, Mnem.CONTENT_URI));
+				break;
+			case R.id.flash:
+				startActivity(new Intent(this, FlashcardsActivity.class));
+				break;
+			case R.id.search:
 				onSearchRequested();
+				break;
 			}
 		}
-		  
-		else if (v instanceof TextView) {
-			 
-		      TextView view = (TextView) v;
-		    
-			  if (view.getId() == R.id.mnemr_text_id) {
-				//Toast.makeText(MnemListActivity.this, " search !",
-					//	Toast.LENGTH_SHORT).show();
-				  Log.d(getClass().getSimpleName(), "textvie .. ;)");
-
-			}
-			  
-			  /*
-			    *  if (view.getId() == R.id.mnemrphoto_id) {
-					Toast.makeText(MnemListActivity.this, " search !",
-							Toast.LENGTH_SHORT).show();
-				}  
-			    
-			else if (view.getId() == R.id.sound_imagebtn) {
-//				
-				Toast.makeText(MnemListActivity.this, " search !",
-						Toast.LENGTH_SHORT).show();
-			}
-			 */	
-	}
-		
-		}
-
 		return true;
 	}
 
