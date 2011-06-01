@@ -263,10 +263,6 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 			Toast.makeText(this, "Search: " + query, Toast.LENGTH_LONG).show();
 		}
 
-		Toast.makeText(MnemListActivity.this,
-				" new " + intent.getClass().getSimpleName(), Toast.LENGTH_SHORT)
-				.show();
-
 	}
 
 	public boolean onTouch(View v, MotionEvent event) {

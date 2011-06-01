@@ -208,7 +208,6 @@ public class FlashcardsActivity extends Activity {
 				Log.d("id", "" + var);
 				getContentResolver().delete(Mnem.CONTENT_URI,
 						Mnem._ID + "=" + var, null);
-				cursor.requery();
 
 				// mCardsView = new CardsView(this);
 

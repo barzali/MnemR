@@ -139,7 +139,9 @@ public class MnemProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri arg0, String selection, String[] selectionArgs) {
-		return db.getWritableDatabase().delete(Mnem.TABLE_NAME, selection, selectionArgs);
+		int res = db.getWritableDatabase().delete(Mnem.TABLE_NAME, selection, selectionArgs);
+		getContext().getContentResolver().notifyChange(Mnem.CONTENT_URI, null);
+		return res; 
 	}
 
 	@Override
