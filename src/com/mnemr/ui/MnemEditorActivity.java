@@ -50,6 +50,9 @@ public class MnemEditorActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    
+	    if (getIntent().getData() == null)
+	    	getIntent().setData(Mnem.CONTENT_URI);
 	
 	    setContentView(R.layout.editor);
 
@@ -103,6 +106,38 @@ public class MnemEditorActivity extends Activity {
 					else
 						startActivity(new Intent(Intent.ACTION_INSERT, Uri.withAppendedPath(getIntent().getData(), "related"))); 
 				}
+			}
+		});
+	    
+	    findViewById(R.id.sound).setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View arg0) {
+				
+				ContentValues values = new ContentValues();
+				values.put(Mnem.TEXT, text.getText().toString());
+				((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(42);
+				
+				if (getIntent().getData().getLastPathSegment().equals("mnemons"))
+					getIntent().setData(getContentResolver().insert(getIntent().getData(), values));
+				else
+					getContentResolver().insert(getIntent().getData(), values);
+				Toast.makeText(MnemEditorActivity.this, "saved", Toast.LENGTH_SHORT).show();
+				
+				startActivity(new Intent(Intent.ACTION_INSERT, Mnem.CONTENT_URI)
+//				startActivity(new Intent(MnemEditorActivity.this, MnemListActivity.class)
+//				.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+				); 
+			}
+		});
+	    
+	    findViewById(R.id.logo).setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View arg0) {
+				startActivity(new Intent(MnemEditorActivity.this, MnemListActivity.class)
+//				.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+				);
 			}
 		});
 	    

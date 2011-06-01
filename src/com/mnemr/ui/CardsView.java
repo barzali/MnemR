@@ -201,7 +201,8 @@ public class CardsView extends FrameLayout {
 		else 
 			mGroupPosition = mAdapter.getGroupCount()-1;
 		
-		refresh();
+		mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
+		animateCurl(false);
 	}
     
     
@@ -215,8 +216,7 @@ public class CardsView extends FrameLayout {
 				
 			}	
 		}else {
-			mOtherView = mAdapter.getGroupView(mGroupPosition, false, mOtherView, CardsView.this);
-			   animateCurl(false);
+			prevCard();
 		}
 		 
 	}
