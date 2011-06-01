@@ -18,13 +18,14 @@ android:gravity="fill_vertical">
                     android:gravity="fill_vertical">
   
  
-                     <TextView android:layout_width="wrap_content" 
+                     <ImageView android:layout_width="wrap_content" 
                       android:layout_centerVertical="true"
                       android:textColor="@color/black" 
                       android:textSize="7pt" 
                       android:textStyle="bold" 
-                      android:layout_height="wrap_content" 
-                      android:text="@string/app_name" android:padding="8dp" />
+                      android:layout_height="wrap_content"
+                      android:src="@drawable/icon"
+                      android:padding="8dp" />
    
    
                     <ImageButton android:background="@android:drawable/ic_menu_search" 

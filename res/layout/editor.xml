@@ -3,24 +3,28 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:padding="0dip"
     >
     
      
     <ImageButton 
     android:id="@+id/sound"
-	android:src="@android:drawable/ic_menu_add"
-    android:layout_width="150dip" 
-    android:layout_height="150dip" 
+    android:layout_width="165dip" 
+    android:layout_height="153dip" 
     android:layout_alignParentBottom="true"
+    android:src="@drawable/btn_plus"
+    android:padding="2dip"
+    android:cropToPadding="true"
 	/>
 	
 	<ImageButton 
  	android:id="@+id/image"
-	android:src="@android:drawable/ic_menu_agenda"
-    android:layout_width="150dip" 
-    android:layout_height="150dip" 
+    android:layout_width="165dip" 
+    android:layout_height="153dip" 
     android:layout_alignParentRight="true"
     android:layout_alignParentBottom="true"
+    android:src="@drawable/btn_arrow"
+    android:padding="42dip"
 	/>
  
     <EditText
@@ -30,13 +34,28 @@
     android:layout_above="@id/sound"
     android:textSize="105dip"
     />
-    <TextView
+
+   	<TextView
     android:id="@+id/nmb"
     android:textColor="@color/green"
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-    android:layout_below="@id/text"
-    android:textSize="42dip"
+    android:layout_alignParentBottom="true"
+    android:textSize="37dip"
     />
+
+    <ImageView
+    android:id="@+id/logo"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"
+    android:layout_above="@id/nmb"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@id/text"
+    android:layout_toRightOf="@id/sound"
+    android:layout_toLeftOf="@id/image"
+    android:src="@drawable/icon"
+    />
+    	
+    
 </RelativeLayout>
