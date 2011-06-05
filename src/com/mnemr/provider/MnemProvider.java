@@ -104,7 +104,7 @@ public class MnemProvider extends ContentProvider {
 		Cursor cursor = null;
 		switch (uriMatcher.match(uri)) {
 		case MNEMONS:
-			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, Mnem.RELATED_ID+" ISNULL", selectionArgs, null, null, sortOrder);
+			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, Mnem.RELATED_ID+" ISNULL", selectionArgs, null, null, "_id DESC");
 			break;
 		case MNEMON:
 			selection = Mnem._ID+"="+uri.getLastPathSegment();
