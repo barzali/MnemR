@@ -25,7 +25,10 @@
 package com.mnemr.ui;
 
 import android.app.Activity;
+import android.app.ExpandableListActivity;
+import android.app.ListActivity;
 import android.app.SearchManager;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -43,6 +46,7 @@ import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,10 +58,9 @@ import com.mnemr.utils.MnemrUtil;
  * @author barzali.
  * 
  */
-public class MnemListActivity extends Activity implements OnTouchListener {
+public class MnemListActivity extends ExpandableListActivity implements OnTouchListener {
 
 	private ExpandableListAdapter adapter;
-	private ExpandableListView expandableListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,6 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 
 		MnemrUtil.CreateAppFolder(MnemListActivity.this);
 
-		setExpandableListView((ExpandableListView) findViewById(R.id.listView));
 		// search
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -77,7 +79,7 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 			Toast.makeText(this, "Search: " + query, Toast.LENGTH_LONG).show();
 		}
 
-		setAdapter(new CursorTreeAdapter(getContentResolver().query(
+		adapter = new CursorTreeAdapter(getContentResolver().query(
 				Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null), this) {
 
 			@Override
@@ -175,9 +177,9 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 					}
 				}
 			}
-		});
-		getExpandableListView().setAdapter(getAdapter());
-
+		};
+		setListAdapter(adapter);
+		
 		ImageButton addbtn = (ImageButton) findViewById(R.id.addmemo_id);
 
 		ImageButton flashbtn = (ImageButton) findViewById(R.id.flash);
@@ -188,21 +190,19 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 		searchbtn.setOnTouchListener(this);
 
 	}
-
-	/**
-	 * @param expandableListView
-	 *            the expandableListView to set
-	 */
-	public void setExpandableListView(ExpandableListView expandableListView) {
-		this.expandableListView = expandableListView;
+	
+	
+	@Override
+	public void onGroupExpand(int groupPosition) {
+		startActivity(new Intent(Intent.ACTION_VIEW, ContentUris.withAppendedId(Mnem.CONTENT_URI, groupPosition)));
+		super.onGroupExpand(groupPosition);
+	}
+	
+	@Override
+	public void onGroupCollapse(int groupPosition) {
+		super.onGroupCollapse(groupPosition);
 	}
 
-	/**
-	 * @return the expandableListView
-	 */
-	public ExpandableListView getExpandableListView() {
-		return expandableListView;
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -273,19 +273,5 @@ public class MnemListActivity extends Activity implements OnTouchListener {
 		return true;
 	}
 
-	/**
-	 * @param adapter
-	 *            the adapter to set
-	 */
-	public void setAdapter(ExpandableListAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	/**
-	 * @return the adapter
-	 */
-	public ExpandableListAdapter getAdapter() {
-		return adapter;
-	}
 
 }

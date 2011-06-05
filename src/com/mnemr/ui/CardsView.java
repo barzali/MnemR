@@ -144,6 +144,10 @@ public class CardsView extends FrameLayout {
        });
     }
 
+
+	public void setPosition(int pos) {
+		mGroupPosition = pos;
+	}
     
     public void setAdapter(CursorTreeAdapter adapter) {
         mAdapter = adapter;
@@ -327,6 +331,8 @@ public class CardsView extends FrameLayout {
         mCurrentView.startAnimation(rotation);
         mOtherView.startAnimation(otherRotation);
     }
+
+
     
     
     

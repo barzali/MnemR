@@ -57,7 +57,7 @@ android:layout_width="fill_parent"
 android:layout_below="@id/mainView" 
 android:layout_alignParentBottom="true">
   
-   <ExpandableListView android:id="@+id/listView"
+   <ExpandableListView android:id="@android:id/list"
                 android:layout_width="fill_parent" 
                 android:layout_height="fill_parent"
                  android:scrollbars="none">

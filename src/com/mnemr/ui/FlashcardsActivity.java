@@ -124,6 +124,12 @@ public class FlashcardsActivity extends Activity {
 				nmb.setText((cursor.getPosition()+2)+"/"+(cursor.getCount()+1));
 			}
 		});
+		
+		mCardsView.setPosition(5);
+		if (getIntent().getData() != null) {
+			mCardsView.setPosition(Integer.parseInt(getIntent().getData().getLastPathSegment()));
+		}
+
 		mCardsView.setAdapter(getCuAdapter());
 		// registerForContextMenu(mCardsView);
 		mCardsView.setOnCreateContextMenuListener(this);
