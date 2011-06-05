@@ -35,13 +35,16 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -88,6 +91,12 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 						// TODO Auto-generated method stub
 						return super.isChildSelectable(groupPosition, childPosition);
 					}
+			
+			@Override
+			public long getGroupId(int groupPosition) {
+				getCursor().moveToPosition(groupPosition);
+				return getCursor().getLong(0);
+			};
 			
 			@Override
 			protected View newGroupView(Context context, Cursor cursor,
@@ -180,6 +189,8 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 		};
 		setListAdapter(adapter);
 		
+		registerForContextMenu(getExpandableListView());
+		
 		ImageButton addbtn = (ImageButton) findViewById(R.id.addmemo_id);
 
 		ImageButton flashbtn = (ImageButton) findViewById(R.id.flash);
@@ -202,7 +213,25 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 	public void onGroupCollapse(int groupPosition) {
 		super.onGroupCollapse(groupPosition);
 	}
-
+	
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		menu.add("Delete");
+		menu.add("Edit");
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if (item.getTitle().equals("Delete")) {
+			ExpandableListView.ExpandableListContextMenuInfo info
+			= (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
+			getContentResolver().delete(Mnem.CONTENT_URI
+					, "_id="+info.id, null);
+		}
+		return super.onContextItemSelected(item);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
