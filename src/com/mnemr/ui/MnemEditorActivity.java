@@ -35,6 +35,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +77,8 @@ public class MnemEditorActivity extends Activity {
 			}
 			
 		});
+	    
+//	    ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).showInputMethodPicker();
 
 
 	    if (getIntent().getAction().equals(Intent.ACTION_EDIT)) {

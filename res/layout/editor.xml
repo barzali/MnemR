@@ -33,6 +33,7 @@
     android:layout_height="wrap_content"
     android:layout_above="@id/sound"
     android:textSize="105dip"
+    android:imeOptions="actionDone"
     />
 
    	<TextView

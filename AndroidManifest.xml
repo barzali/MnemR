@@ -16,7 +16,8 @@
             </intent-filter>
 	    </activity>
         
-		<activity android:name=".ui.MnemEditorActivity"
+		<activity android:name=".ui.MnemEditorActivity" 
+					android:windowSoftInputMode="adjustPan"
 					android:icon="@drawable/icon"
 					android:label="Catch"
 					android:screenOrientation="landscape"

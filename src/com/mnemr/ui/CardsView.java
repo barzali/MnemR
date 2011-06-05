@@ -51,6 +51,7 @@ public class CardsView extends FrameLayout {
     public int mGroupPosition = 0;
     public int mChildPosition = -1;
     protected float mState;
+	private int id;
 
     public CardsView(Context context) {
         super(context);
@@ -145,14 +146,16 @@ public class CardsView extends FrameLayout {
     }
 
 
-	public void setPosition(int pos) {
-		mGroupPosition = pos;
+	public void setId(int id) {
+		this.id = id;
 	}
     
     public void setAdapter(CursorTreeAdapter adapter) {
         mAdapter = adapter;
         if (adapter.getGroupCount() == 0)
         	return;
+        while (adapter.getGroupId(mGroupPosition) != id) mGroupPosition++;
+        
         mCurrentView = adapter.getGroupView(mGroupPosition, false, mCurrentView, this);
         mOtherView = adapter.getGroupView(mGroupPosition, false, mOtherView, this);
         addView(mCurrentView);

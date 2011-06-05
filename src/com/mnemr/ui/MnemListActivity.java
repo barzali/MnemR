@@ -57,10 +57,6 @@ import com.mnemr.R;
 import com.mnemr.provider.Mnem;
 import com.mnemr.utils.MnemrUtil;
 
-/**
- * @author barzali.
- * 
- */
 public class MnemListActivity extends ExpandableListActivity implements OnTouchListener {
 
 	private ExpandableListAdapter adapter;
@@ -71,16 +67,7 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.actionbar_main_layout);
 
-		MnemrUtil.CreateAppFolder(MnemListActivity.this);
-
-		// search
-		Intent intent = getIntent();
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
-			if (query == null)
-				query = intent.getDataString(); // touch
-			Toast.makeText(this, "Search: " + query, Toast.LENGTH_LONG).show();
-		}
+		onNewIntent(getIntent()); // search
 
 		adapter = new CursorTreeAdapter(getContentResolver().query(
 				Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null), this) {
@@ -217,8 +204,8 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		menu.add("Delete");
 		menu.add("Edit");
+		menu.add("Delete");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 	
@@ -275,11 +262,12 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 		// Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
-			if (query == null)
-				query = intent.getDataString(); // touch
-			Toast.makeText(this, "Search: " + query, Toast.LENGTH_LONG).show();
+			if (query != null)
+				Toast.makeText(this, "Search: " + query, Toast.LENGTH_LONG).show();
+			else
+				Log.d("Search", intent.getDataString());
+				startActivity(new Intent(Intent.ACTION_VIEW, intent.getData()));
 		}
-
 	}
 
 	public boolean onTouch(View v, MotionEvent event) {

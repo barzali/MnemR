@@ -125,9 +125,8 @@ public class FlashcardsActivity extends Activity {
 			}
 		});
 		
-		mCardsView.setPosition(5);
 		if (getIntent().getData() != null) {
-			mCardsView.setPosition(Integer.parseInt(getIntent().getData().getLastPathSegment()));
+			mCardsView.setId(Integer.parseInt(getIntent().getData().getLastPathSegment()));
 		}
 
 		mCardsView.setAdapter(getCuAdapter());
