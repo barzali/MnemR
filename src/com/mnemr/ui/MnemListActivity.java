@@ -211,11 +211,14 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		ExpandableListView.ExpandableListContextMenuInfo info
+		= (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
 		if (item.getTitle().equals("Delete")) {
-			ExpandableListView.ExpandableListContextMenuInfo info
-			= (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
 			getContentResolver().delete(Mnem.CONTENT_URI
 					, "_id="+info.id, null);
+		} else if (item.getTitle().equals("Edit")) {
+			startActivity(new Intent(Intent.ACTION_EDIT, 
+					Uri.withAppendedPath(Mnem.CONTENT_URI, ""+info.id)));
 		}
 		return super.onContextItemSelected(item);
 	}

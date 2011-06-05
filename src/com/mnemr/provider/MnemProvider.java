@@ -134,7 +134,9 @@ public class MnemProvider extends ContentProvider {
 		if (uriMatcher.match(uri) == RELATED)
 			values.put(Mnem.RELATED_ID, uri.getPathSegments().get(1));
 		selection = Mnem._ID+"="+uri.getLastPathSegment();
-		return db.getWritableDatabase().update(Mnem.TABLE_NAME, values, selection, selectionArgs);
+		int res = db.getWritableDatabase().update(Mnem.TABLE_NAME, values, selection, selectionArgs);
+		getContext().getContentResolver().notifyChange(Mnem.CONTENT_URI, null);
+		return res;
 	}
 
 	@Override

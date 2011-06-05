@@ -167,8 +167,9 @@ public class MnemEditorActivity extends Activity {
 			related = 1;
 			count = 1;
 		} else {
-			getIntent().setData(Uri.withAppendedPath(getIntent().getData(), "/related"));
-			count = getContentResolver().query(getIntent().getData(), new String[]{}, null, null, null).getCount()+2;
+			count = getContentResolver().query(
+					Uri.withAppendedPath(getIntent().getData(), "/related"), 
+					new String[]{}, null, null, null).getCount()+2;
 		}
 		nmb = (TextView) findViewById(R.id.nmb);
 		nmb.setText(related +"/"+count);

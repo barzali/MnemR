@@ -75,6 +75,12 @@ public class FlashcardsActivity extends Activity {
 				Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null), this) {
 
 			@Override
+			public long getGroupId(int groupPosition) {
+				getCursor().moveToPosition(groupPosition);
+				return getCursor().getLong(0);
+			}
+			
+			@Override
 			protected View newGroupView(Context context, Cursor cursor,
 					boolean isExpanded, ViewGroup parent) {
 				FrameLayout l = new FrameLayout(context);

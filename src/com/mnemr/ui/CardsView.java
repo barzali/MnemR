@@ -154,7 +154,9 @@ public class CardsView extends FrameLayout {
         mAdapter = adapter;
         if (adapter.getGroupCount() == 0)
         	return;
-        while (adapter.getGroupId(mGroupPosition) != id) mGroupPosition++;
+        while (mGroupPosition < adapter.getGroupCount()-2
+        		&& adapter.getGroupId(mGroupPosition) != id) 
+        	mGroupPosition++;
         
         mCurrentView = adapter.getGroupView(mGroupPosition, false, mCurrentView, this);
         mOtherView = adapter.getGroupView(mGroupPosition, false, mOtherView, this);
