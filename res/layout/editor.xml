@@ -46,7 +46,7 @@
     />
 
     <ImageView
-    android:id="@+id/logo"
+    android:id="@+id/list"
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content"
     android:layout_above="@id/nmb"
@@ -54,7 +54,7 @@
     android:layout_below="@id/text"
     android:layout_toRightOf="@id/sound"
     android:layout_toLeftOf="@id/image"
-    android:src="@drawable/icon"
+    android:src="@drawable/list"
     />
     	
     

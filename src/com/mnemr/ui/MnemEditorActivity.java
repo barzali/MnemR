@@ -135,7 +135,7 @@ public class MnemEditorActivity extends Activity {
 			}
 		});
 	    
-	    findViewById(R.id.logo).setOnClickListener(new OnClickListener() {
+	    findViewById(R.id.list).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View arg0) {
 				startActivity(new Intent(MnemEditorActivity.this, MnemListActivity.class)
