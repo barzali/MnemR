@@ -90,7 +90,7 @@ public class MnemEditorActivity extends Activity {
 	    	
 	    }
 	    
-	    findViewById(R.id.image).setOnClickListener(new OnClickListener() {
+	    findViewById(R.id.arrow).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				ContentValues values = new ContentValues();
@@ -116,7 +116,7 @@ public class MnemEditorActivity extends Activity {
 			}
 		});
 	    
-	    findViewById(R.id.sound).setOnClickListener(new OnClickListener() {
+	    findViewById(R.id.plus).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View arg0) {
 				
