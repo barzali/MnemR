@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- barzali -->
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/mainContainer" 
+android:layout_width="fill_parent" 
+android:layout_height="fill_parent" 
+>
+   
+                    <ImageButton 
+                      android:id="@+id/search" 
+                      android:background="@android:drawable/ic_menu_search" 
+                      android:layout_height="70dip"
+                      android:layout_width="70dip" 
+                      android:layout_alignParentRight="true"
+                      android:layout_marginRight="12dip" 
+                      android:scaleType="fitXY"
+                      />
+ 
+                     <ImageButton
+                      android:id="@+id/flash" 
+                      android:layout_width="wrap_content" 
+                      android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="12dip" 
+                      android:background="@drawable/icon"
+                      />
+
+                   <ImageButton 
+                     android:id="@+id/addmemo_id"
+	                 android:background="@android:drawable/ic_menu_add"
+                     android:layout_width="70dip" 
+                     android:layout_height="70dip" 
+                     android:layout_marginRight="12dip" 
+                     android:layout_alignParentBottom="true"
+                     android:layout_alignParentRight="true"
+                      />
+   
+ 
+
+  
+   <ExpandableListView android:id="@android:id/list"
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent"
+                android:layout_toLeftOf="@id/flash"
+                 android:scrollbars="none">
+                 </ExpandableListView>
+</RelativeLayout>
+  
+  
+   
+                 
+                 
+ 
