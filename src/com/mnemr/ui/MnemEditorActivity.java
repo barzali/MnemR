@@ -93,6 +93,11 @@ public class MnemEditorActivity extends Activity {
 	    findViewById(R.id.arrow).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
+
+				if (text.getText().toString().equals("")) {
+					Toast.makeText(MnemEditorActivity.this, "nothing to nehm :/", Toast.LENGTH_SHORT).show();
+					finish();
+				}
 				ContentValues values = new ContentValues();
 				values.put(Mnem.TEXT, text.getText().toString());
 				((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(42);
@@ -106,7 +111,7 @@ public class MnemEditorActivity extends Activity {
 						getIntent().setData(getContentResolver().insert(getIntent().getData(), values));
 					else
 						getContentResolver().insert(getIntent().getData(), values);
-					Toast.makeText(MnemEditorActivity.this, "saved", Toast.LENGTH_SHORT).show();
+					Toast.makeText(MnemEditorActivity.this, "genehmt!", Toast.LENGTH_SHORT).show();
 //					text.setText("");
 					if (getIntent().getData().getLastPathSegment().equals("related"))
 						startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData())); 
