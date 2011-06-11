@@ -94,9 +94,10 @@ public class MnemEditorActivity extends Activity {
 			
 			public void onClick(View v) {
 
-				if (text.getText().toString().equals("")) {
+				if (text.getText().length() == 0) {
+					((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(500);
 					Toast.makeText(MnemEditorActivity.this, "nothing to nehm :/", Toast.LENGTH_SHORT).show();
-					finish();
+					return;
 				}
 				ContentValues values = new ContentValues();
 				values.put(Mnem.TEXT, text.getText().toString());
@@ -125,6 +126,11 @@ public class MnemEditorActivity extends Activity {
 			
 			public void onClick(View arg0) {
 				
+				if (text.getText().length() == 0) {
+					((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(500);
+					Toast.makeText(MnemEditorActivity.this, "nothing to nehm :/", Toast.LENGTH_SHORT).show();
+					return;
+				}
 				ContentValues values = new ContentValues();
 				values.put(Mnem.TEXT, text.getText().toString());
 				((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(42);
