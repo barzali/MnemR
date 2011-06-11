@@ -18,8 +18,8 @@
         
 		<activity android:name=".ui.MnemEditorActivity" 
 					android:windowSoftInputMode="adjustPan"
-					android:icon="@drawable/icon"
-					android:label="Catch"
+					android:icon="@drawable/list"
+					android:label="NehmR"
 				  	android:theme="@android:style/Theme.NoTitleBar">
 			            <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
@@ -38,12 +38,10 @@
 		</activity>
 
         <activity android:name=".ui.MnemListActivity"
-        			android:theme="@android:style/Theme.NoTitleBar" android:label="Vault" 
-        		  android:icon="@drawable/list" android:launchMode="singleTop">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-             <category android:name="android.intent.category.LAUNCHER"/>
-             </intent-filter>
+        		  android:theme="@android:style/Theme.NoTitleBar" 
+        		  android:label="Vault" 
+        		  android:icon="@drawable/list" 
+        		  android:launchMode="singleTop">
 			<intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
