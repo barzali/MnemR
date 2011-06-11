@@ -56,6 +56,8 @@ public class FlashcardsActivity extends Activity {
 	protected static final String TAG = "FlashCards";
 	private CardsView mCardsView;
 	private CursorTreeAdapter mAdapter;
+	private long startTime;
+	private int counter;
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -172,9 +174,21 @@ public class FlashcardsActivity extends Activity {
 		case KeyEvent.KEYCODE_VOLUME_UP:
 			mCardsView.nextCard();
 			return true;
+		case KeyEvent.KEYCODE_DPAD_CENTER:
+			if (System.currentTimeMillis()-startTime > 300) {
+				startTime = System.currentTimeMillis();
+				counter = 0;
+			} else {
+				counter++;
+				if (counter > 1)
+					openOptionsMenu();
+			}
+			Log.d("KEY", "hier "+event.getEventTime());
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	
 	
 	/**
 	 * @param mAdapter
