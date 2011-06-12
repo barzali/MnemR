@@ -88,7 +88,7 @@ public class FlashcardsActivity extends Activity {
 				FrameLayout l = new FrameLayout(context);
 				TextView v = new TextView(context);
 				v.setBackgroundColor(Color.BLACK);
-				v.setTextColor(Color.GRAY);
+				v.setTextColor(Color.WHITE);
 				v.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 				v.setText("hui");
 				l.addView(v, new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
@@ -262,10 +262,10 @@ public class FlashcardsActivity extends Activity {
 		String[] lines = view.getText().toString().split("\\n");
 		for (int i = 0; i < lines.length; i++) {
 			textSize = (int) Math.min(textSize, (view.getTextSize() *
-					(getWindowManager().getDefaultDisplay().getWidth()-42) / 
+					(getWindowManager().getDefaultDisplay().getWidth()) / 
 					view.getPaint().measureText(lines[i])));
 		}
-		view.setTextSize(textSize);
+		view.setTextSize(textSize+10);
 	}
 
 }

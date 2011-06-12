@@ -56,7 +56,7 @@ public class CardsView extends FrameLayout {
     public CardsView(Context context) {
         super(context);
         
-        setBackgroundColor(Color.WHITE);
+        setBackgroundColor(Color.GRAY);
         
         detector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
 
