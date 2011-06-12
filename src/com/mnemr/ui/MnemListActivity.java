@@ -36,6 +36,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +49,8 @@ import android.widget.AdapterView;
 import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,6 +63,7 @@ import com.mnemr.utils.MnemrUtil;
 public class MnemListActivity extends ExpandableListActivity implements OnTouchListener {
 
 	private ExpandableListAdapter adapter;
+	private boolean button;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +140,6 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 
 			private View createListViewItem(Context context) {
 				
-				
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View textView = inflater.inflate(R.layout.listview_item, null);
@@ -187,20 +190,46 @@ public class MnemListActivity extends ExpandableListActivity implements OnTouchL
 		flashbtn.setOnTouchListener(this);
 		searchbtn.setOnTouchListener(this);
 
+		getExpandableListView().setOnGroupClickListener(new OnGroupClickListener() {
+			
+			public boolean onGroupClick(ExpandableListView arg0, View arg1, int groupPosition, long groupId) {
+				startActivity(new Intent(Intent.ACTION_VIEW, ContentUris.withAppendedId(Mnem.CONTENT_URI, groupId)));
+				return true;
+			}
+		});
+		getExpandableListView().setOnChildClickListener(new OnChildClickListener() {
+
+			public boolean onChildClick(ExpandableListView arg0, View arg1,	int childPos, int childId, long arg4) {
+				startActivity(new Intent(Intent.ACTION_VIEW, ContentUris.withAppendedId(Mnem.CONTENT_URI, childId)));
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+		
 	}
 	
 	
-	@Override
-	public void onGroupExpand(int groupPosition) {
-		startActivity(new Intent(Intent.ACTION_VIEW, ContentUris.withAppendedId(Mnem.CONTENT_URI, groupPosition)));
-		super.onGroupExpand(groupPosition);
-	}
+	
 	
 	@Override
 	public void onGroupCollapse(int groupPosition) {
 		super.onGroupCollapse(groupPosition);
 	}
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+			int pos = getExpandableListView().getSelectedItemPosition();
+			if (!getExpandableListView().isGroupExpanded(pos)) {
+				getExpandableListView().expandGroup(pos);
+			} else {
+				getExpandableListView().collapseGroup(pos);
+			}
+			return true;
+		}
+			
+		return super.onKeyDown(keyCode, event);
+	}
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
