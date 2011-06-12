@@ -6,13 +6,37 @@
     
      
     <ImageButton 
-    android:id="@+id/plus"
+    android:id="@+id/sound"
+    android:layout_width="160dip" 
+    android:layout_height="130dip" 
     android:layout_alignParentBottom="true"
     android:background="@drawable/btn_bg"
+    android:src="@drawable/btn_mic"
+    android:paddingRight="80dip"
+    android:paddingTop="47dip"
+	/>
+	
+	<ImageButton 
+ 	android:id="@+id/image"
+    android:layout_width="160dip" 
+    android:layout_height="130dip" 
+    android:background="@drawable/btn_bg"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+    android:src="@drawable/btn_cam"
+    android:paddingLeft="80dip"
+    android:paddingTop="47dip"
+	/>
+
+    <ImageButton 
+    android:id="@+id/plus"
+    android:background="@drawable/btn_bg"
     android:src="@drawable/btn_plus"
+    android:layout_above="@id/sound"
     android:layout_width="160dip" 
     android:layout_height="130dip"
-    android:padding="42dip"
+    android:paddingRight="73dip"
+    android:paddingBottom="50dip"
 	/>
 	
 	<ImageButton 
@@ -20,37 +44,18 @@
     android:layout_width="160dip" 
     android:layout_height="130dip" 
     android:layout_alignParentRight="true"
-    android:layout_alignParentBottom="true"
+    android:layout_above="@id/image"
     android:background="@drawable/btn_bg"
     android:src="@drawable/btn_arrow"
-    android:padding="42dip"
-	/>
-    <ImageButton 
-    android:id="@+id/sound"
-    android:layout_width="160dip" 
-    android:layout_height="130dip" 
-    android:layout_above="@id/plus"
-    android:background="@drawable/btn_bg"
-    android:src="@drawable/btn_mic"
-    android:padding="42dip"
-	/>
-	
-	<ImageButton 
- 	android:id="@+id/image"
-    android:layout_width="160dip" 
-    android:layout_height="130dip" 
-    android:layout_alignParentRight="true"
-    android:layout_above="@id/plus"
-    android:background="@drawable/btn_bg"
-    android:src="@drawable/btn_cam"
-    android:padding="42dip"
+    android:paddingLeft="73dip"
+    android:paddingBottom="50dip"
 	/>
  
     <EditText
     android:id="@+id/text"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
-    android:layout_above="@id/image"
+    android:layout_above="@id/plus"
     android:textSize="105dip"
     android:imeOptions="actionDone"
     />
