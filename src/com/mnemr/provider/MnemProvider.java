@@ -64,15 +64,15 @@ public class MnemProvider extends ContentProvider {
 						");");
 			
 			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (1, 'sound', 'image', 'MnemR', NULL);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (2, 'sound', 'image', 'Memer', 1);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (3, 'sound', 'image', 'content tool', 1);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (4, 'sound', 'image', 'griech: mnem', NULL);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (5, 'sound', 'image', 'lat: mem', 4);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (6, 'sound', 'image', 'Hallo', NULL);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (7, 'sound', 'image', 'Nihao', 6);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (8, 'sound', 'image', 'A9', NULL);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (9, 'sound', 'image', 'Wien->München', 8);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (10, 'sound', 'image', 'erbaut 1953', 8);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (2, 'sound', 'image', '[nema]', 1);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (3, 'sound', 'image', 'Capture', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (4, 'sound', 'image', 'Illustrate', 3);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (5, 'sound', 'image', 'Memorize', 3);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (6, 'sound', 'image', 'Sound', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (7, 'sound', 'image', 'Image', 6);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (8, 'sound', 'image', 'Text', 6);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (9, 'sound', 'image', 'mailinglist', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (10, 'sound', 'image', 'list@mnemr.com', 9);");
 		}
 
 		@Override
