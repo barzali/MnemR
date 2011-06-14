@@ -63,16 +63,16 @@ public class MnemProvider extends ContentProvider {
 							Mnem.RELATED_ID+" INTEGER" +
 						");");
 			
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (1, 'sound', 'image', 'MnemR', NULL);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (2, 'sound', 'image', '[nema]', 1);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (3, 'sound', 'image', 'Capture', NULL);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (4, 'sound', 'image', 'Illustrate', 3);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (5, 'sound', 'image', 'Memorize', 3);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (6, 'sound', 'image', 'Sound', NULL);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (7, 'sound', 'image', 'Image', 6);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (8, 'sound', 'image', 'Text', 6);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (9, 'sound', 'image', 'mailinglist', NULL);");
-			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (10, 'sound', 'image', 'list@mnemr.com', 9);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (1, 'sound', 'image', 'mailinglist', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (2, 'sound', 'image', 'list@mnemr.com', 1);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (3, 'sound', 'image', 'Sound', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (4, 'sound', 'image', 'Image', 3);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (5, 'sound', 'image', 'Text', 3);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (6, 'sound', 'image', 'Capture', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (7, 'sound', 'image', 'Illustrate', 6);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (8, 'sound', 'image', 'Memorize', 6);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (9, 'sound', 'image', 'MnemR', NULL);");
+			db.execSQL("INSERT INTO "+Mnem.TABLE_NAME+" VALUES (10, 'sound', 'image', '[nema]', 9);");
 		}
 
 		@Override
@@ -104,7 +104,7 @@ public class MnemProvider extends ContentProvider {
 		Cursor cursor = null;
 		switch (uriMatcher.match(uri)) {
 		case MNEMONS:
-			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, Mnem.RELATED_ID+" ISNULL", selectionArgs, null, null, "_id DESC");
+			cursor = db.getReadableDatabase().query(Mnem.TABLE_NAME, projection, Mnem.RELATED_ID+" ISNULL", selectionArgs, null, null, sortOrder);
 			break;
 		case MNEMON:
 			selection = Mnem._ID+"="+uri.getLastPathSegment();

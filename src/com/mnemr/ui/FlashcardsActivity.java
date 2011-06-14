@@ -1,12 +1,10 @@
 /*
  *  __  __                      ____  
-|  \/  |_ __   ___ _ __ ___ |  _ \ 
-| |\/| | '_ \ / _ \ '_ ` _ \| |_) |
-| |  | | | | |  __/ | | | | |  _ < 
-|_|  |_|_| |_|\___|_| |_| |_|_| \_\
+   |  \/  |_ __   ___ _ __ ___ |  _ \ 
+   | |\/| | '_ \ / _ \ '_ ` _ \| |_) |
+   | |  | | | | |  __/ | | | | |  _ < 
+   |_|  |_|_| |_|\___|_| |_| |_|_| \_\
                                    
-
-
  * Copyright (c) 2011: mnemr.com contributors. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -74,7 +72,7 @@ public class FlashcardsActivity extends Activity {
 		setContentView(mCardsView);
 
 		setCuAdapter(new CursorTreeAdapter(getContentResolver().query(
-				Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, null), this) {
+				Mnem.CONTENT_URI, Mnem.PROJECTION, null, null, "_id ASC"), this) {
 
 			@Override
 			public long getGroupId(int groupPosition) {
