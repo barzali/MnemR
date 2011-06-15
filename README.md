@@ -1,11 +1,8 @@
-
 MnemR
 =====
 
-Often times computers store things **for humans** and remind them at time.<br/> 
-MnemR is about the other way around: helping people remember things **themselves** in the human memory.<br/>
-Continious repetition with visual and auditive anchors (_mnemonics_) aid the process of memorizing by making things more sticky long-term.<br/>
-MnemR (pron. '_Nehmer_') is a mnemonic content learning tool for the android platform designed to enable all kinds of **human brain trainer** apps..<br/><br/>
+MnemR is a tool for instant memorandum & long-term memorization<br/>
+By creating text-, photo- & sound-scraps, MnemR helps you capture brainstorming ideas, keep track of your to-dos and even assists you with memorizing and studying your learning contents<br/>
 
 
 GET STARTED
