@@ -6,8 +6,8 @@ MnemR is a mix of a **memo**-, a **brainstorming**- and a **learning**-tool.<br/
 It uses text-, image- & sound-scraps<br/>
 to help you:<br/>
 --capture quick thoughts & ideas<br/>
---keep track of important issues<br/>
---memorize & learn various content<br/>
+--keep track of your important issues<br/>
+--memorize & study various learn content<br/>
 <br/><br/>
 
 GET STARTED
