@@ -1,9 +1,14 @@
 MnemR
 =====
 
-MnemR is a tool for instant memorandum & long-term memorization<br/>
-By creating text-, photo- & sound-scraps, MnemR helps you capture brainstorming ideas, keep track of your to-dos and even assists you with memorizing and studying your learning contents<br/>
-
+MnemR is a mix of a **memo**-, a **brainstorming**- and a **learning**-tool.<br/>
+<br/><br/>
+It uses text-, image- & sound-scraps<br/>
+to help you:<br/>
+--capture quick thoughts & ideas<br/>
+--keep track of important issues<br/>
+--memorize & learn various content<br/>
+<br/><br/>
 
 GET STARTED
 -----------
