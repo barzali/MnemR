@@ -3,11 +3,11 @@ MnemR
 
 MnemR is a mix of a **memo**-, a **brainstorming**- and a **learning**-tool.<br/>
 <br/><br/>
-It uses **text**-, **image**- & **sound**-scraps<br/>
+It uses scraps of **text**, **image** & **sound**<br/>
 to help you:<br/>
---capture quick thoughts & ideas<br/>
---keep track of your important issues<br/>
---memorize & study various learn content<br/>
+--capture thoughts & ideas<br/>
+--track relevant issues<br/>
+--memorize various learn contents<br/>
 <br/><br/>
 
 GET STARTED
